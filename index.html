@@ -1,2568 +1,387 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calendário Digital - Responsabilidades Fiscais 2025</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-        }
-
-        [data-theme="dark"] {
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --bg-card: #334155;
-            --text-primary: #fbbf24;
-            --text-secondary: #fcd34d;
-            --border-color: #475569;
-        }
-
-        [data-theme="light"] {
-            --bg-primary: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fca5a5 100%);
-            --bg-secondary: #ffffff;
-            --bg-card: #ffffff;
-            --text-primary: #7c2d12;
-            --text-secondary: #92400e;
-            --border-color: #f59e0b;
-        }
-
-        body {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            transition: all 0.5s ease;
-            min-height: 100vh;
-        }
-
-        [data-theme="light"] body {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fca5a5 100%);
-        }
-
-        .theme-transition * {
-            transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important;
-        }
-        
-        .blur-background {
-            filter: blur(8px) brightness(0.7);
-            transition: filter 0.6s ease;
-        }
-        
-        .login-modal {
-            backdrop-filter: blur(20px) saturate(150%);
-            background: rgba(15, 23, 42, 0.8);
-        }
-
-        [data-theme="light"] .login-modal {
-            background: rgba(255, 255, 255, 0.9);
-        }
-        
-        .login-form {
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            color: #1e293b;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
-
-        [data-theme="dark"] .login-form {
-            background: rgba(30, 41, 59, 0.95);
-            border: 1px solid rgba(71, 85, 105, 0.8);
-            color: #f1f5f9;
-        }
-
-        .login-form::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
-        }
-
-        .login-form input {
-            background: rgba(248, 250, 252, 0.8) !important;
-            border: 1px solid rgba(226, 232, 240, 0.6) !important;
-            color: #334155 !important;
-            transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] .login-form input {
-            background: rgba(51, 65, 85, 0.8) !important;
-            border: 1px solid rgba(71, 85, 105, 0.6) !important;
-            color: #e2e8f0 !important;
-        }
-
-        .login-form input:focus {
-            outline: none;
-            border-color: #3b82f6 !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            background: rgba(255, 255, 255, 0.95) !important;
-        }
-
-        [data-theme="dark"] .login-form input:focus {
-            background: rgba(30, 41, 59, 0.95) !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        .login-form label {
-            color: #475569 !important;
-            font-weight: 500;
-        }
-
-        [data-theme="dark"] .login-form label {
-            color: #cbd5e1 !important;
-        }
-
-        .login-title {
-            color: #1e293b !important;
-            font-weight: 700;
-            font-size: 28px;
-        }
-
-        [data-theme="dark"] .login-title {
-            color: #f1f5f9 !important;
-        }
-
-        .login-subtitle {
-            color: #64748b !important;
-        }
-
-        [data-theme="dark"] .login-subtitle {
-            color: #94a3b8 !important;
-        }
-
-        .google-btn {
-            background: rgba(255, 255, 255, 0.9) !important;
-            border: 1px solid rgba(226, 232, 240, 0.8) !important;
-            color: #374151 !important;
-            transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] .google-btn {
-            background: rgba(51, 65, 85, 0.9) !important;
-            border: 1px solid rgba(71, 85, 105, 0.8) !important;
-            color: #e5e7eb !important;
-        }
-
-        .google-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .separator-text {
-            background: rgba(255, 255, 255, 0.95) !important;
-            color: #6b7280 !important;
-        }
-
-        [data-theme="dark"] .separator-text {
-            background: rgba(30, 41, 59, 0.95) !important;
-            color: #9ca3af !important;
-        }
-
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.4s ease;
-        }
-
-        [data-theme="dark"] .glass-effect {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .calendar-day {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .calendar-day::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .calendar-day:hover::before {
-            left: 100%;
-        }
-        
-        .calendar-day:hover {
-            transform: translateY(-6px) scale(1.08) rotateX(5deg);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25), 0 0 20px rgba(102, 126, 234, 0.3);
-            z-index: 10;
-            border-color: rgba(102, 126, 234, 0.5) !important;
-        }
-
-        .calendar-day.today {
-            background: var(--primary-gradient);
-            color: white;
-            font-weight: bold;
-            animation: todayPulse 3s infinite, todayGlow 2s infinite alternate;
-            transform: scale(1.02);
-        }
-
-        @keyframes todayPulse {
-            0%, 100% { 
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.8);
-            }
-            50% { 
-                box-shadow: 0 0 0 15px rgba(102, 126, 234, 0);
-            }
-        }
-
-        @keyframes todayGlow {
-            0% { 
-                filter: brightness(1) saturate(1);
-            }
-            100% { 
-                filter: brightness(1.2) saturate(1.3);
-            }
-        }
-
-        .event-indicator {
-            animation: eventBounce 0.6s ease-out;
-            animation-delay: calc(var(--delay, 0) * 0.1s);
-        }
-
-        @keyframes eventBounce {
-            0% { 
-                transform: scale(0) rotate(180deg);
-                opacity: 0;
-            }
-            50% { 
-                transform: scale(1.3) rotate(90deg);
-                opacity: 0.8;
-            }
-            100% { 
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-        
-        .event-indicator {
-            width: 12px;
-            height: 3px;
-            border-radius: 2px;
-            margin: 1px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .event-fgts { background: linear-gradient(135deg, #ef4444, #dc2626); }
-        .event-inss { background: linear-gradient(135deg, #3b82f6, #2563eb); }
-        .event-irrf { background: linear-gradient(135deg, #10b981, #059669); }
-        .event-pis { background: linear-gradient(135deg, #f59e0b, #d97706); }
-        .event-rais { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
-        .event-dirf { background: linear-gradient(135deg, #ec4899, #db2777); }
-        .event-folha { background: linear-gradient(135deg, #06b6d4, #0891b2); }
-        .event-holiday { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-        .event-birthday { background: linear-gradient(135deg, #f97316, #ea580c); }
-        
-        .holiday-day { 
-            background: linear-gradient(135deg, #fef2f2, #fee2e2); 
-            border: 2px solid #dc2626;
-            color: #dc2626;
-        }
-
-        [data-theme="dark"] .holiday-day {
-            background: linear-gradient(135deg, #450a0a, #7f1d1d);
-            color: #fca5a5;
-        }
-        
-        .month-card {
-            transition: all 0.3s ease;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .month-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--primary-gradient);
-            transform: scaleX(0);
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .month-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-            transform: scale(0);
-            transition: transform 0.6s ease;
-            pointer-events: none;
-        }
-
-        [data-theme="light"] .month-card::before {
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-        }
-        
-        .month-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .month-card:hover::after {
-            transform: scale(1);
-        }
-        
-        .month-card:hover {
-            transform: translateY(-12px) scale(1.03) rotateY(2deg);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2), 0 0 30px rgba(102, 126, 234, 0.2);
-            z-index: 5;
-            border-color: rgba(102, 126, 234, 0.4);
-        }
-        
-        .month-header {
-            background: var(--primary-gradient);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .modal-content {
-            transition: all 0.4s ease;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-gradient {
-            background: var(--primary-gradient);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-gradient:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .floating-nav {
-            position: fixed;
-            top: 50%;
-            right: 20px;
-            transform: translateY(-50%);
-            z-index: 40;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 16px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            animation: floatIn 0.8s ease-out;
-            backdrop-filter: blur(10px);
-        }
-
-        @keyframes floatIn {
-            0% {
-                opacity: 0;
-                transform: translateY(-50%) translateX(100px) scale(0.8);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(-50%) translateX(0) scale(1);
-            }
-        }
-
-        .floating-nav:hover {
-            transform: translateY(-50%) scale(1.08) rotateY(5deg);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.25), 0 0 40px rgba(102, 126, 234, 0.3);
-        }
-
-        .floating-nav button {
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .floating-nav button::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
-            transition: all 0.4s ease;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-        }
-
-        .floating-nav button:hover::before {
-            width: 100px;
-            height: 100px;
-        }
-
-        .floating-nav button:hover {
-            transform: scale(1.15) rotate(5deg);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.25);
-        }
-
-        .filter-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .filter-chip::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .filter-chip:hover::before {
-            left: 100%;
-        }
-
-        .filter-chip:hover {
-            transform: translateY(-4px) scale(1.08);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2), 0 0 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .filter-chip.active {
-            background: var(--primary-gradient);
-            color: white;
-            border-color: transparent;
-            animation: activeChipPulse 2s infinite;
-        }
-
-        @keyframes activeChipPulse {
-            0%, 100% {
-                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
-            }
-            50% {
-                box-shadow: 0 0 0 8px rgba(102, 126, 234, 0);
-            }
-        }
-
-        /* Mobile optimizations */
-        @media (max-width: 768px) {
-            .floating-nav {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                top: auto;
-                transform: none;
-            }
-
-            .calendar-day {
-                height: 60px;
-                font-size: 14px;
-            }
-
-            .event-indicator {
-                width: 10px;
-                height: 2px;
-            }
-        }
-
-        /* Shake animation for form validation */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-
-        /* Accessibility */
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
-</head>
-<body class="min-h-screen theme-transition" data-theme="light">
-    <!-- Login Modal -->
-    <div id="loginModal" class="fixed inset-0 login-modal flex items-center justify-center z-50">
-        <div class="rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 login-form">
-            <div class="text-center mb-8">
-                <div class="w-16 h-16 mx-auto mb-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                    <i data-lucide="calendar" class="w-8 h-8 text-white"></i>
-                </div>
-                <h2 class="login-title mb-2">Calendário Digital</h2>
-                <p class="login-subtitle">Entre com sua conta para continuar</p>
-            </div>
-            
-            <div id="loginForm">
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">Email</label>
-                    <input type="email" id="loginEmail" class="w-full p-3 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" placeholder="Digite seu email">
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">Senha</label>
-                    <div class="relative">
-                        <input type="password" id="loginPassword" class="w-full p-3 pr-12 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" placeholder="Digite sua senha">
-                        <button type="button" onclick="togglePasswordVisibility('loginPassword', 'loginToggle')" id="loginToggle" class="absolute right-3 top-1/2 transform -translate-y-1/2 hover:scale-110 focus:outline-none transition-all duration-300" style="color: var(--text-secondary);">
-                            <i data-lucide="eye" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-                </div>
-                <button onclick="signInWithEmail()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-3 rounded-xl font-semibold mb-4 transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                    <i data-lucide="log-in" class="w-5 h-5 inline mr-2"></i>Entrar
-                </button>
-                <div class="mb-4">
-                    <div class="relative">
-                        <div class="absolute inset-0 flex items-center">
-                            <div class="w-full border-t" style="border-color: var(--border-color);"></div>
-                        </div>
-                        <div class="relative flex justify-center text-sm">
-                            <span class="px-2 separator-text">ou</span>
-                        </div>
-                    </div>
-                </div>
-                <button onclick="signInWithGoogle()" class="w-full p-3 rounded-xl font-semibold mb-4 transition-all duration-300 flex items-center justify-center space-x-2 hover:scale-105 google-btn">
-                    <svg class="w-5 h-5" viewBox="0 0 24 24">
-                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                    </svg>
-                    <span>Entrar com Google</span>
-                </button>
-                <button onclick="showRegisterForm()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                    <i data-lucide="user-plus" class="w-5 h-5 inline mr-2"></i>Criar Nova Conta
-                </button>
-            </div>
-            
-            <div id="registerForm" class="hidden">
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">Email</label>
-                    <input type="email" id="registerEmail" class="w-full p-3 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300" placeholder="Digite seu email">
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">Senha</label>
-                    <div class="relative">
-                        <input type="password" id="registerPassword" class="w-full p-3 pr-12 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300" placeholder="Crie uma senha (mín. 6 caracteres)">
-                        <button type="button" onclick="togglePasswordVisibility('registerPassword', 'registerToggle')" id="registerToggle" class="absolute right-3 top-1/2 transform -translate-y-1/2 hover:scale-110 focus:outline-none transition-all duration-300" style="color: var(--text-secondary);">
-                            <i data-lucide="eye" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="mb-6">
-                    <label class="block text-sm font-medium mb-2">Confirmar Senha</label>
-                    <div class="relative">
-                        <input type="password" id="confirmPassword" class="w-full p-3 pr-12 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300" placeholder="Confirme sua senha">
-                        <button type="button" onclick="togglePasswordVisibility('confirmPassword', 'confirmToggle')" id="confirmToggle" class="absolute right-3 top-1/2 transform -translate-y-1/2 hover:scale-110 focus:outline-none transition-all duration-300" style="color: var(--text-secondary);">
-                            <i data-lucide="eye" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-                </div>
-                <button onclick="createAccountWithEmail()" class="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-3 rounded-xl font-semibold mb-4 transition-all duration-300 transform hover:scale-[1.02]">
-                    <i data-lucide="user-plus" class="w-5 h-5 inline mr-2"></i>Criar Conta
-                </button>
-                <button onclick="showLoginForm()" class="w-full bg-gray-500 hover:bg-gray-600 text-white p-3 rounded-xl font-semibold transition-all duration-300">
-                    <i data-lucide="arrow-left" class="w-5 h-5 inline mr-2"></i>Voltar ao Login
-                </button>
-            </div>
-            
-            <div id="loginMessage" class="mt-4 text-center text-sm hidden"></div>
-        </div>
+<!doctype html>
+<html lang="pt-BR"><head><script>window["__codeletBootstrap__"]=JSON.parse('{"A":"A","B":"20261023-04-bec0c89","C":{"Abril Fatface":"YACgEZbkUVE,0","Albert Sans":"YAHO2HRfeh4,0","Alfa Slab One":"YACgEYS9sJU,0","Anton":"YACgEcYqQ-A,0","Archivo Black":"YACgEZulLoA,0","Archivo":"YAHO2-t-jNE,0","Arial":"YAGyDvJ_4Ts,0","Atkinson Hyperlegible":"YAFge7Z-F6s,0","Azeret Mono":"YAHO2EIdDP0,0","Baloo 2":"YAHO2IcQUcM,0","Bangers":"YAD5qTdjGKo,1","Barlow Condensed":"YAFdJljEuFc,0","Barlow Semi Condensed":"YAFdJu55qXI,0","Barlow":"YAFdJsyuOPM,1","Bebas Neue":"YACgESME5ew,0","Big Shoulders Display":"YAFdJs8L2aw,0","Bodoni Moda":"YAHO2C7VUJE,0","Bricolage Grotesque":"YAFyMcdwzpc,0","Cairo":"YAFdtXpDzlQ,0","Canva Sans":"YAFdJjTk5UU,1","Caprasimo":"YAHO2PYTkbo,0","Caveat":"YALBs2ploWQ,0","Cinzel":"YACgEeV8bIQ,0","Comic Neue":"YAHO2VMiyZo,0","Commissioner":"YAHO2RRI-KE,0","Cormorant Garamond":"YAFdJhX-538,0","Courier New":"YAGzXiGs0_8,0","Courier Prime":"YAD1aFjegN8,0","DM Mono":"YAHO2SGpw0w,0","DM Sans":"YAD1aU3sLnI,0","DM Serif Display":"YAD1aYG82rc,0","Familjen Grotesk":"YAHO2ZriIzU,0","Figtree":"YAHO2b-mV7A,0","Forum":"YACgEcnnqB4,0","Fraunces":"YAFdJpU7Kkk,0","Fredoka":"YACgEZml080,0","Gabarito":"YAHO2cD3JmI,0","Geist":"YAHO2SfKS30,0","Gentium Book Plus":"YAHO2b-adyU,0","Georgia":"YAGzXkO0pEM,0","Gloock":"YAHO2WVhd0Q,0","Golos Text":"YAHO2QlqAQk,0","Hanken Grotesk":"YAHO2VB9G0I,0","Helvetica":"YAFcf7zkXN0,0","Host Grotesk":"YAHO2VztvdY,0","IBM Plex Mono":"YAFdJkmvhGI,0","IBM Plex Sans":"YAFdJgT0SHI,0","Impact":"YAFcfnjI7Vk,0","Instrument Sans":"YAHO2bKyaSQ,0","Instrument Serif":"YAHFeOnZNEk,0","Inter":"YAFdJvSyp_k,3","Italiana":"YAHO2Toik_w,0","Jacques Francois":"YAHO2a5g66Q,0","JetBrains Mono":"YAFdJksXcAk,0","Josefin Sans":"YAFdJjvw9Ps,0","Jua":"YADK3-gZSDU,0","Kalam":"YAFdJrEg2ic,0","Karla":"YAHO2V2NSXM,0","Lato":"YAFdJuFCnaw,0","League Spartan":"YACgEcnJpjs,0","Libre Baskerville":"YACgEUFdPdA,0","Libre Caslon Display":"YAHO2XhLmt0,0","Libre Franklin":"YAFdJr3SNlU,1","Lobster":"YAD8SnSjSFI,0","Lora":"YACgEXvxf8Q,0","Manrope":"YAHO2b2feC4,0","Martian Mono":"YAHO2YhUMkk,0","Merriweather":"YACgEXvHxxs,0","Michroma":"YADK4IYX8vY,0","Montserrat":"YAFdtQi73Xs,0","Noto Sans JP":"YAFdJiHXlcI,0","Noto Sans KR":"YAGsojZj-RQ,0","Noto Sans SC":"YAHO2hDCDFM,0","Nunito Sans":"YAFdtQJYB9w,1","Nunito":"YAFdJoNRMmU,1","Old Standard TT":"YAHO2lhtDcg,0","Oleo Script":"YACgEQQ14jI,0","Onest":"YAHO2kaArOY,0","Open Sans":"YAFdJt8dAY0,1","Oswald":"YACgEQY10lw,0","Outfit":"YAHO2nVlg14,0","PT Serif":"YACgEcU7Qg4,0","Pacifico":"YADLjORQ1u4,0","Parisienne":"YACgERSYqTw,0","Playfair Display":"YAFdJhem5V8,1","Plus Jakarta Sans":"YAHO2gdhi18,0","Poppins":"YAFdJjbTu24,1","Press Start 2P":"YAFyGr-8pmQ,0","Public Sans":"YAFdJj8NdaU,1","Quicksand":"YAFdJpYtCxE,1","Raleway":"YAFdJhmxbVQ,1","Red Hat Display":"YAD1bzs0p0Y,0","Red Hat Text":"YAHO21kkNWg,0","Roboto Mono":"YAFdJkvp3-k,0","Roboto Slab":"YAFdJswIKAg,0","Rockwell":"YAFcfyVZnN0,0","Rubik":"YAFdJsMWVVc,0","Rye":"YACgEdQP21k,0","STIX Two Text":"YAHO2joycuk,0","Sarabun":"YAFdJssSnME,0","Schibsted Grotesk":"YAHO2sWydRk,0","Segoe UI":"YAHNdRD1Klw,0","Sniglet":"YACgEUJSCy8,0","Source Sans 3":"YAG4lO1Mj10,0","Space Grotesk":"YAHO2sjPCSM,0","Space Mono":"YADW1-vpsoc,0","Spectral":"YAHO2rVUHIM,0","Syne":"YAHML9oLRPc,0","Times New Roman":"YAGzXW3gftg,0","Trebuchet MS":"YAFcfrglpVA,0","Ubuntu":"YACgERDU--Q,0","Unbounded":"YAHO2rkdmWY,0","Varela Round":"YALBs2IK6rw,0","Verdana":"YAGzXTctYtQ,0","Work Sans":"YAGXhLOKv44,0","Yellowtail":"YACgEYG4kG4,0"}}');</script><script src="/_sdk/05db820ba1544614.telemetry_sdk.js" integrity="sha512-a7JzkQDDcioSXpM61nxTfeRW7PcxWQy5+BrhyeTFmQFsXJ+Gncm0y50u7fTA7qOPegFnRgqCfa0mGUOK1yjDWQ=="></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proposta comercial — Gabriel Assis</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Fraunces:opsz,wght@9..144,400;9..144,500&amp;display=swap" rel="stylesheet">
+  <style>
+    :root { --black:#0B0B0B; --graphite:#1F1F1F; --bronze:#C9B89B; --cream:#EDE7D9; --warm:#A9A196; }
+    html { scroll-behavior:smooth; scroll-padding-top:88px; }
+    body { font-family:'DM Sans',sans-serif; color:var(--cream); margin:0; }
+    * { box-sizing:border-box; }
+    ::selection { background:var(--bronze); color:var(--black); }
+    .display { font-family:'Fraunces',serif; font-weight:400; line-height:1.08; letter-spacing:-.035em; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.19em; font-size:11px; font-weight:700; }
+    .rule { border-top:1px solid rgba(201,184,155,.38); }
+    .dark { background:var(--black); color:var(--cream); }
+    .graphite { background:var(--graphite); color:var(--cream); }
+    .light { background:var(--cream); color:var(--black); }
+    .section-pad { padding:clamp(74px,9vw,132px) 0; }
+    .page-inner { width:min(100% - 40px, 1200px); margin-inline:auto; }
+    .muted-dark { color:var(--warm); }
+    .muted-light { color:#504b44; }
+    .bronze { color:var(--bronze); }
+    .body-copy { line-height:1.75; }
+    .hero-photo:after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(11,11,11,.96) 0%,rgba(11,11,11,.78) 38%,rgba(11,11,11,.14) 100%); pointer-events:none; }
+    .nav-link { transition:color .2s; }
+    .nav-link:hover { color:var(--bronze); }
+    .action { display:inline-flex; align-items:center; justify-content:center; gap:14px; padding:15px 22px; border:1px solid var(--bronze); font-weight:600; transition:background .2s,color .2s,transform .2s; }
+    .action:hover { background:var(--bronze); color:var(--black); transform:translateY(-2px); }
+    .action-filled { background:var(--bronze); color:var(--black); }
+    .action-filled:hover { background:var(--cream); border-color:var(--cream); }
+    a:focus-visible,button:focus-visible { outline:2px solid var(--bronze); outline-offset:5px; }
+    .image-frame { overflow:hidden; background:var(--graphite); }
+    .image-frame img { transition:transform .6s ease; }
+    .image-frame:hover img { transform:scale(1.045); }
+    .step { border-top:1px solid rgba(201,184,155,.4); padding:23px 0; }
+    .small-rule { width:34px; height:1px; background:var(--bronze); }
+    @media(max-width:900px) {
+      .desktop-nav { display:none; }
+      .mobile-nav { display:block; }
+      .mobile-menu { display:none; }
+      .mobile-menu.open { display:flex; }
+    }
+    @media(min-width:901px) { .mobile-nav { display:none; } }
+    @media(max-width:640px) {
+      .page-inner { width:min(100% - 36px,1200px); }
+      .hero-photo:after { background:linear-gradient(0deg,rgba(11,11,11,.94),rgba(11,11,11,.42)); }
+    }
+    @media(prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      *,*:before,*:after { transition-duration:.01ms!important; animation-duration:.01ms!important; }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="/_sdk/570d53629f0b998d.data_sdk.js" type="text/javascript" integrity="sha512-JEN39+V+Nvv9ZZOVS8vNk1iA9ErZJHTdgOw9KzPuMiK7m0I+KPEr/wmTnCFIQVsDjCZgJWfGnFi1IQh2Io2qyA=="></script>
+  <script src="/_sdk/3c889ef0464c8f3c.editing_sdk.js" type="text/javascript" integrity="sha512-NXaPkdInwCOHRcD1AlnM1kHXlU9YrcK/X97HuqeduFmMqNEHYKT8h1O1g4ofohcZaE8pxMTkkESWY0NPm6G8AQ=="></script>
+  <script src="/_sdk/c30df2f1b43bb1c9.resizing_sdk.js" type="text/javascript" integrity="sha512-D333Ts+f4grQi3QxtsDXggpMWmSBzoaq0HBneFnX5mKOM0DIqoMYROhGiQrAeQEiHtxcjverIEa7k6HIZXqXiA=="></script>
+ </head>
+ <body data-template-id="__page-root" class="w-full" style="background: rgb(11, 11, 11);">
+  <header data-template-id="site-header" class="canva-header fixed inset-x-0 top-0 z-50 border-b border-[#C9B89B]/20 bg-[#0B0B0B]/95 backdrop-blur-md" style="background: rgb(11, 11, 11);">
+   <div class="page-inner flex min-h-[72px] items-center justify-between gap-6"><a href="#visao-geral" data-template-id="header-name" class="canva-link whitespace-nowrap font-semibold tracking-wide" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 16px;">Gabriel Assis</a>
+    <nav class="desktop-nav flex items-center gap-5 xl:gap-7" aria-label="Navegação principal"><a href="#visao-geral" data-template-id="nav-overview" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Visão geral</a> <a href="#marcas" data-template-id="nav-brands" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Marcas</a> <a href="#entregas" data-template-id="nav-deliverables" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Entregas</a> <a href="#processo" data-template-id="nav-process" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Processo</a> <a href="#beneficios" data-template-id="nav-benefits" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Benefícios</a> <a href="#investimento" data-template-id="nav-investment" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Investimento</a> <a href="#contato" data-template-id="nav-contact" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
+    </nav><button id="menu-toggle" type="button" class="mobile-nav p-2 bronze" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i></button>
+   </div>
+   <nav id="mobile-menu" class="mobile-menu page-inner flex-col gap-0 pb-5" aria-label="Navegação móvel"><a href="#visao-geral" class="nav-link py-2">Visão geral</a><a href="#marcas" class="nav-link py-2">Marcas</a> <a href="#entregas" class="nav-link py-2">Entregas</a><a href="#processo" class="nav-link py-2">Processo</a> <a href="#beneficios" class="nav-link py-2">Benefícios</a><a href="#investimento" class="nav-link py-2">Investimento</a> <a href="#contato" class="nav-link py-2">Contato</a>
+   </nav>
+  </header>
+  <main>
+   <section id="visao-geral" class="dark relative flex min-h-[680px] items-end overflow-hidden pt-28 sm:items-center" style="min-height:calc(84 * min(var(--vh, 1vh), 1vh))">
+    <div class="hero-photo absolute inset-0"><img data-template-id="hero-image" loading="lazy" class="canva-image h-full w-full object-cover object-center" src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920" alt="Mesa posta em ambiente gastronômico elegante">
     </div>
-
-    <!-- Floating Navigation -->
-    <div id="floatingNav" class="floating-nav hidden">
-        <div class="flex flex-col space-y-3">
-            <button onclick="toggleTheme()" class="p-3 rounded-lg transition-all duration-300 hover:scale-110" style="background: var(--bg-card); border: 1px solid var(--border-color);" title="Alternar tema">
-                <i data-lucide="sun" class="w-5 h-5" id="themeIcon" style="color: var(--text-primary);"></i>
-            </button>
-            <button onclick="showTimeline()" class="p-3 rounded-lg transition-all duration-300 hover:scale-110" style="background: var(--bg-card); border: 1px solid var(--border-color);" title="Próximos eventos">
-                <i data-lucide="clock" class="w-5 h-5" style="color: var(--text-primary);"></i>
-            </button>
-        </div>
+    <div class="page-inner relative z-10 py-24 sm:py-36">
+     <div class="max-w-[720px]">
+      <p data-template-id="hero-kicker" class="canva-text eyebrow bronze mb-8" style="color: rgb(201, 184, 155); font-weight: 700; font-style: normal; font-size: 11px;">Proposta comercial — Gabriel Assis</p>
+      <h1 data-template-id="hero-title" class="canva-text display mb-7 !text-[clamp(3.4rem,7.8vw,7.4rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 32px;">Marketing que conecta marcas e pessoas.</h1>
+      <p data-template-id="hero-subtitle" class="canva-text max-w-[530px] body-copy mb-10" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Estratégia, conteúdo e presença digital para negócios gastronômicos.</p><a href="#contato" data-template-id="hero-cta" class="canva-button action action-filled" style="background: rgb(201, 184, 155); color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Agendar conversa</a>
+     </div>
+    </div><span class="absolute bottom-7 right-7 z-10 bronze hidden sm:block" aria-hidden="true">01 / 03</span>
+   </section>
+   <section class="light section-pad">
+    <div class="page-inner grid gap-10 md:grid-cols-[1fr_1.35fr] md:gap-20">
+     <div>
+      <p data-template-id="opportunity-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">A oportunidade</p>
+      <h2 data-template-id="opportunity-title" class="canva-text display !text-[clamp(2.5rem,4.4vw,4.7rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Presença que expressa o valor de cada negócio.</h2>
+     </div>
+     <div class="self-end border-l border-[#C9B89B] pl-7 md:pl-10">
+      <p data-template-id="opportunity-copy" class="canva-text body-copy mb-5" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Uma presença digital consistente pode ajudar a apresentar melhor os negócios, despertar interesse, fortalecer o posicionamento e criar oportunidades de relacionamento com o público.</p>
+      <p data-template-id="opportunity-note" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">O trabalho vai além de publicar fotos e vídeos: começa na intenção por trás de cada conteúdo e na forma como cada marca é percebida.</p>
+     </div>
     </div>
-
-    <div id="mainContent" class="container mx-auto px-4 py-8 blur-background">
-        <!-- Logo Space -->
-        <div class="text-center mb-8">
-            <div class="inline-block bg-white p-4 rounded-xl shadow-lg">
-                <img src="https://imgur.com/CVsV7Ty.png" alt="Logo da Loja" class="max-h-16 object-contain">
-            </div>
-        </div>
-
-        <!-- Header -->
-        <div class="mb-8">
-            <div class="flex justify-between items-center mb-4">
-                <div class="w-20"></div>
-                <h1 class="text-4xl font-bold flex-1 text-center" style="font-family: 'Georgia', serif; color: var(--text-primary);">Calendário Digital</h1>
-                <div class="w-20"></div>
-            </div>
-            <div class="text-center">
-                <div id="userWelcome" class="text-lg mb-2" style="color: var(--text-primary);"></div>
-                <div id="storageStatus" class="text-sm mt-2" style="color: var(--text-secondary);"></div>
-            </div>
-        </div>
-
-        <!-- Event Filters -->
-        <div class="mb-8">
-            <div class="flex flex-wrap gap-3 justify-center">
-                <div class="filter-chip active" onclick="toggleFilter('all')" data-filter="all" style="--chip-index: 0">
-                    <i data-lucide="calendar" class="w-4 h-4"></i>
-                    <span>Todos</span>
-                </div>
-                <div class="filter-chip" onclick="toggleFilter('fiscal')" data-filter="fiscal" style="--chip-index: 1">
-                    <i data-lucide="file-text" class="w-4 h-4"></i>
-                    <span>Fiscal</span>
-                </div>
-                <div class="filter-chip" onclick="toggleFilter('holidays')" data-filter="holidays" style="--chip-index: 2">
-                    <i data-lucide="gift" class="w-4 h-4"></i>
-                    <span>Feriados</span>
-                </div>
-                <div class="filter-chip" onclick="toggleFilter('birthdays')" data-filter="birthdays" style="--chip-index: 3">
-                    <i data-lucide="cake" class="w-4 h-4"></i>
-                    <span>Aniversários</span>
-                </div>
-                <div class="filter-chip" onclick="toggleFilter('notes')" data-filter="notes" style="--chip-index: 4">
-                    <i data-lucide="sticky-note" class="w-4 h-4"></i>
-                    <span>Observações</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Year Navigation -->
-        <div class="flex justify-center items-center mb-8 space-x-6">
-            <button id="prevYearBtn" onclick="changeYear(-1)" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2">
-                <i data-lucide="chevron-left" class="w-5 h-5"></i>
-                <span id="prevYear">2024</span>
-            </button>
-            <div class="text-center">
-                <h2 id="currentYear" class="text-4xl font-bold transition-all duration-500 transform" style="color: var(--text-primary);">2025</h2>
-                <div class="text-sm mt-1" style="color: var(--text-secondary);">Ano atual</div>
-            </div>
-            <button id="nextYearBtn" onclick="changeYear(1)" class="btn-gradient text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2">
-                <span id="nextYear">2026</span>
-                <i data-lucide="chevron-right" class="w-5 h-5"></i>
-            </button>
-        </div>
-
-        <!-- Legend -->
-        <div class="rounded-2xl shadow-lg p-6 mb-8 glass-effect" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-            <h3 class="text-xl font-bold mb-4 flex items-center" style="color: var(--text-primary);">
-                <i data-lucide="info" class="w-5 h-5 mr-2"></i>
-                Legenda das Obrigações
-            </h3>
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-fgts"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">FGTS</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-inss"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">INSS</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-irrf"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">IRRF</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-pis"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">PIS</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-rais"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">RAIS</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-dirf"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">DIRF</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-folha"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">Folha</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-birthday"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">Aniversários</span>
-                </div>
-                <div class="flex items-center space-x-3 p-2 rounded-lg transition-all duration-300 hover:scale-105" style="background: var(--bg-secondary);">
-                    <div class="event-indicator event-holiday"></div>
-                    <span class="text-sm font-medium" style="color: var(--text-primary);">Feriados</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Calendar Grid -->
-        <div id="calendarGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            <!-- Months will be generated here -->
-        </div>
-
-        <!-- Event Details Modal -->
-        <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="rounded-xl p-6 max-w-md mx-4 modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 id="modalTitle" class="text-xl font-bold" style="color: var(--text-primary);"></h3>
-                    <button onclick="closeModal()" class="hover:scale-110 transition-all duration-300" style="color: var(--text-secondary);">
-                        <i data-lucide="x" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <div id="modalContent" style="color: var(--text-secondary);"></div>
-                <button onclick="closeModal()" class="mt-4 btn-gradient text-white px-4 py-2 rounded-xl w-full">
-                    Fechar
-                </button>
-            </div>
-        </div>
-
-        <!-- Notes Modal -->
-        <div id="notesModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="rounded-xl p-6 max-w-md mx-4 w-full modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 id="notesModalTitle" class="text-xl font-bold flex items-center" style="color: var(--text-primary);">
-                        <i data-lucide="sticky-note" class="w-5 h-5 mr-2"></i>Observações
-                    </h3>
-                    <button onclick="closeNotesModal()" class="hover:scale-110 transition-all duration-300" style="color: var(--text-secondary);">
-                        <i data-lucide="x" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2" style="color: var(--text-primary);">Adicionar observação:</label>
-                    <textarea id="noteInput" class="w-full p-3 border rounded-xl resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300" style="border-color: var(--border-color); background: var(--bg-secondary); color: var(--text-primary);" rows="4" placeholder="Digite sua observação aqui..."></textarea>
-                </div>
-                <div class="flex space-x-3">
-                    <button onclick="saveNote()" class="flex-1 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300">
-                        <i data-lucide="save" class="w-4 h-4 inline mr-1"></i>Salvar
-                    </button>
-                    <button onclick="deleteNote()" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300">
-                        <i data-lucide="trash-2" class="w-4 h-4 inline mr-1"></i>Excluir
-                    </button>
-                    <button onclick="closeNotesModal()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300">
-                        Cancelar
-                    </button>
-                </div>
-                <div id="existingNote" class="mt-4 p-3 rounded-xl hidden" style="background: var(--bg-secondary);">
-                    <h4 class="font-semibold mb-2" style="color: var(--text-primary);">Observação atual:</h4>
-                    <p id="existingNoteText" style="color: var(--text-secondary);"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Birthday Modal -->
-        <div id="birthdayModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="rounded-xl p-6 max-w-md mx-4 w-full modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 id="birthdayModalTitle" class="text-xl font-bold flex items-center" style="color: var(--text-primary);">
-                        <i data-lucide="cake" class="w-5 h-5 mr-2"></i>Aniversários
-                    </h3>
-                    <button onclick="closeBirthdayModal()" class="hover:scale-110 transition-all duration-300" style="color: var(--text-secondary);">
-                        <i data-lucide="x" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium mb-2" style="color: var(--text-primary);">Nome da pessoa:</label>
-                    <input type="text" id="birthdayInput" class="w-full p-3 border rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-300" style="border-color: var(--border-color); background: var(--bg-secondary); color: var(--text-primary);" placeholder="Digite o nome da pessoa...">
-                </div>
-                <div class="flex space-x-3">
-                    <button onclick="saveBirthday()" class="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300">
-                        <i data-lucide="cake" class="w-4 h-4 inline mr-1"></i>Salvar
-                    </button>
-                    <button onclick="deleteBirthday()" class="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300">
-                        <i data-lucide="trash-2" class="w-4 h-4 inline mr-1"></i>Excluir
-                    </button>
-                    <button onclick="closeBirthdayModal()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-xl font-semibold transition-all duration-300">
-                        Cancelar
-                    </button>
-                </div>
-                <div id="existingBirthday" class="mt-4 p-3 rounded-xl hidden" style="background: var(--bg-secondary);">
-                    <h4 class="font-semibold mb-2" style="color: var(--text-primary);">Aniversário atual:</h4>
-                    <p id="existingBirthdayText" style="color: var(--text-secondary);"></p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Timeline Modal -->
-        <div id="timelineModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
-            <div class="rounded-2xl p-6 max-w-md mx-4 w-full modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold flex items-center" style="color: var(--text-primary);">
-                        <i data-lucide="clock" class="w-5 h-5 mr-2"></i>
-                        Próximos Eventos
-                    </h3>
-                    <button onclick="closeTimelineModal()" class="hover:scale-110 transition-all duration-300" style="color: var(--text-secondary);">
-                        <i data-lucide="x" class="w-6 h-6"></i>
-                    </button>
-                </div>
-                <div id="timelineContent" class="max-h-96 overflow-y-auto">
-                    <!-- Timeline items will be generated here -->
-                </div>
-                <button onclick="closeTimelineModal()" class="mt-4 btn-gradient text-white px-4 py-2 rounded-xl w-full">
-                    Fechar
-                </button>
-            </div>
-        </div>
-
-        <!-- Action Buttons Section -->
-        <div class="mt-16 mb-8 text-center">
-            <div class="space-y-4">
-                <!-- Digital Agenda Button -->
-                <div class="flex justify-center">
-                    <a href="https://necleg.github.io/Agenda/" target="_blank" id="digitalAgendaBtn" class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-300 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 rounded-2xl hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 focus:outline-none focus:ring-4 focus:ring-purple-300 hover:scale-105 transform hover:shadow-2xl hover:shadow-purple-500/25 overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
-                        <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
-                        <div class="relative flex items-center space-x-3">
-                            <div class="p-2 bg-white/20 rounded-full group-hover:bg-white/30 transition-all duration-300 group-hover:rotate-12 transform">
-                                <i data-lucide="calendar-plus" class="w-6 h-6"></i>
-                            </div>
-                            <span class="bg-gradient-to-r from-white to-gray-100 bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
-                                Agenda Digital
-                            </span>
-                            <div class="p-1 bg-white/20 rounded-full group-hover:bg-white/30 transition-all duration-300 group-hover:translate-x-1 transform">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </div>
-                        </div>
-                        <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                    </a>
-                </div>
-                
-                <!-- Logout Button -->
-                <div class="flex justify-center">
-                    <button onclick="logout()" class="group relative inline-flex items-center justify-center px-6 py-3 text-base font-semibold text-white transition-all duration-300 bg-gradient-to-r from-red-500 to-red-600 rounded-xl hover:from-red-600 hover:to-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 hover:scale-105 transform hover:shadow-lg overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-r from-red-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div class="relative flex items-center space-x-2">
-                            <i data-lucide="log-out" class="w-4 h-4 group-hover:rotate-12 transition-transform duration-300"></i>
-                            <span>Sair</span>
-                        </div>
-                        <div class="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Footer -->
-        <footer class="text-center py-8">
-            <div class="rounded-2xl p-6 mx-4 glass-effect" style="background: var(--bg-card); border: 1px solid var(--border-color);">
-                <p class="font-medium mb-2" style="color: var(--text-primary);">© 2025 Casa dos Cereais - Todos os direitos reservados</p>
-                <p class="text-sm" style="color: var(--text-secondary);">Desenvolvido por <span class="font-semibold" style="color: var(--text-primary);">Gabriel</span></p>
-            </div>
-        </footer>
+   </section>
+   <section id="marcas" class="dark section-pad">
+    <div class="page-inner">
+     <p data-template-id="brands-kicker" class="canva-text eyebrow bronze mb-5" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Três marcas, três personalidades</p>
+     <div class="flex flex-wrap items-end justify-between gap-6 mb-12">
+      <h2 data-template-id="brands-title" class="canva-text display max-w-[750px] !text-[clamp(2.6rem,5vw,5.3rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Uma proposta. Três maneiras de criar conexão.</h2>
+      <p data-template-id="brands-intro" class="canva-text muted-dark max-w-[250px] body-copy" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Cada perfil pede uma narrativa própria, dentro de uma estratégia coordenada.</p>
+     </div>
+     <div class="grid gap-6 md:grid-cols-3">
+      <article data-template-id="savora-card" class="canva-card border border-[#C9B89B]/25 bg-[#1F1F1F]" style="background: rgb(31, 31, 31);">
+       <div class="image-frame aspect-[4/3]">
+        <img data-template-id="savora-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Prato gastronômico fotografado em composição editorial">
+       </div>
+       <div class="p-7">
+        <span class="bronze eyebrow">01 / Restaurante</span>
+        <h3 data-template-id="savora-name" class="canva-text display my-4 !text-[2.2rem]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Savora</h3>
+        <p data-template-id="savora-card-copy" class="canva-text muted-dark body-copy" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Restaurante de gastronomia mediterrânea. Direção: sofisticação, experiência, apresentação dos pratos, ingredientes, ambiente, sensorialidade e qualidade percebida.</p>
+       </div>
+      </article>
+      <article data-template-id="zephyr-card" class="canva-card border border-[#C9B89B]/25 bg-[#1F1F1F]" style="background: rgb(31, 31, 31);">
+       <div class="image-frame aspect-[4/3]">
+        <img data-template-id="zephyr-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Café preparado e servido em xícara">
+       </div>
+       <div class="p-7">
+        <span class="bronze eyebrow">02 / Café</span>
+        <h3 data-template-id="zephyr-name" class="canva-text display my-4 !text-[2.2rem]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Zephýr</h3>
+        <p data-template-id="zephyr-card-copy" class="canva-text muted-dark body-copy mb-4" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Café. Direção: cafés especiais, brunch, produtos, experiência, ambiente acolhedor, rotina dos clientes e momentos de consumo.</p><a data-template-id="zephyr-instagram" href="https://www.instagram.com/zephyrcafebrasil/" target="_blank" rel="noopener noreferrer" class="canva-link bronze underline underline-offset-4 text-sm" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 14px;">Instagram de referência informado pelo cliente ↗</a>
+       </div>
+      </article>
+      <article data-template-id="quintal-card" class="canva-card border border-[#C9B89B]/25 bg-[#1F1F1F]" style="background: rgb(31, 31, 31);">
+       <div class="image-frame aspect-[4/3]">
+        <img data-template-id="quintal-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Refeição servida à mesa com apresentação acolhedora">
+       </div>
+       <div class="p-7">
+        <span class="bronze eyebrow">03 / Restaurante</span>
+        <h3 data-template-id="quintal-name" class="canva-text display my-4 !text-[2.2rem]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Quintal</h3>
+        <p data-template-id="quintal-card-copy" class="canva-text muted-dark body-copy" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Restaurante de comida caseira. Direção: comida de verdade, sabor familiar, acolhimento, refeições do cotidiano, tradição, praticidade e proximidade.</p>
+       </div>
+      </article>
+     </div>
+     <div class="rule mt-12 pt-6 flex flex-col gap-3 sm:flex-row sm:gap-8">
+      <p data-template-id="future-label" class="canva-text eyebrow bronze shrink-0" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Expansão futura</p>
+      <p data-template-id="future-copy" class="canva-text muted-dark body-copy" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">O novo café previsto para o futuro pode ser considerado em uma expansão estratégica. Ele não integra o investimento mensal atual.</p>
+     </div>
     </div>
-
-    <!-- Firebase SDK v12.0.0 -->
-    <script type="module">
-        // Import Firebase functions
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, collection, query, where, getDocs, onSnapshot, addDoc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyBhRH760_hAthw737CrzmioyZrzCeK5H8s",
-            authDomain: "calendario-53e49.firebaseapp.com",
-            projectId: "calendario-53e49",
-            storageBucket: "calendario-53e49.firebasestorage.app",
-            messagingSenderId: "352958232134",
-            appId: "1:352958232134:web:90cd86a22b7564ee59bc47",
-            measurementId: "G-EFQFJGXDE5"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-        const googleProvider = new GoogleAuthProvider();
-
-        // Make Firebase services available globally
-        window.firebaseAuth = auth;
-        window.firebaseDb = db;
-        window.googleProvider = googleProvider;
-        window.firebaseSignInWithPopup = signInWithPopup;
-        window.firebaseSignOut = signOut;
-        window.firebaseOnAuthStateChanged = onAuthStateChanged;
-        window.firebaseCreateUserWithEmailAndPassword = createUserWithEmailAndPassword;
-        window.firebaseSignInWithEmailAndPassword = signInWithEmailAndPassword;
-        window.firestoreDoc = doc;
-        window.firestoreSetDoc = setDoc;
-        window.firestoreGetDoc = getDoc;
-        window.firestoreCollection = collection;
-        window.firestoreQuery = query;
-        window.firestoreWhere = where;
-        window.firestoreGetDocs = getDocs;
-        window.firestoreOnSnapshot = onSnapshot;
-        window.firestoreAddDoc = addDoc;
-        window.firestoreUpdateDoc = updateDoc;
-        window.firestoreDeleteDoc = deleteDoc;
-        window.firestoreServerTimestamp = serverTimestamp;
-
-        console.log('🔥 Firebase inicializado com sucesso!');
-    </script>
-    
-    <script>
-        let currentYear = 2025;
-        let currentNoteDate = '';
-        let currentUser = null;
-        let firebaseUser = null;
-        let userNotes = {};
-        let userBirthdays = {};
-        let realtimeListener = null;
-        let currentTheme = 'light';
-        let activeFilters = ['all'];
-        
-        // Months array
-        const months = [
-            'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-        ];
-
-        // Calculate Easter date for a given year
-        function calculateEaster(year) {
-            const a = year % 19;
-            const b = Math.floor(year / 100);
-            const c = year % 100;
-            const d = Math.floor(b / 4);
-            const e = b % 4;
-            const f = Math.floor((b + 8) / 25);
-            const g = Math.floor((b - f + 1) / 3);
-            const h = (19 * a + b - d - g + 15) % 30;
-            const i = Math.floor(c / 4);
-            const k = c % 4;
-            const l = (32 + 2 * e + 2 * i - h - k) % 7;
-            const m = Math.floor((a + 11 * h + 22 * l) / 451);
-            const month = Math.floor((h + l - 7 * m + 114) / 31);
-            const day = ((h + l - 7 * m + 114) % 31) + 1;
-            
-            return new Date(year, month - 1, day);
-        }
-
-        // Generate holidays for multiple years
-        function generateHolidays(year) {
-            const holidays = {};
-            
-            // Calculate Easter and related dates
-            const easter = calculateEaster(year);
-            
-            // Good Friday (2 days before Easter)
-            const goodFriday = new Date(easter);
-            goodFriday.setDate(easter.getDate() - 2);
-            const goodFridayStr = `${goodFriday.getFullYear()}-${String(goodFriday.getMonth() + 1).padStart(2, '0')}-${String(goodFriday.getDate()).padStart(2, '0')}`;
-            holidays[goodFridayStr] = 'Sexta-feira Santa';
-            
-            // Corpus Christi (60 days after Easter)
-            const corpusChristi = new Date(easter);
-            corpusChristi.setDate(easter.getDate() + 60);
-            const corpusChristiStr = `${corpusChristi.getFullYear()}-${String(corpusChristi.getMonth() + 1).padStart(2, '0')}-${String(corpusChristi.getDate()).padStart(2, '0')}`;
-            holidays[corpusChristiStr] = 'Corpus Christi';
-            
-            // National holidays
-            holidays[`${year}-01-01`] = 'Confraternização Universal';
-            holidays[`${year}-04-21`] = 'Tiradentes';
-            holidays[`${year}-05-01`] = 'Dia do Trabalhador';
-            holidays[`${year}-09-07`] = 'Independência do Brasil';
-            holidays[`${year}-10-12`] = 'Nossa Senhora Aparecida';
-            holidays[`${year}-11-02`] = 'Finados';
-            holidays[`${year}-11-15`] = 'Proclamação da República';
-            holidays[`${year}-12-25`] = 'Natal';
-            
-            // Municipal holidays - Quatis/RJ
-            holidays[`${year}-10-07`] = 'Nossa Senhora do Rosário (Quatis)';
-            holidays[`${year}-11-25`] = 'Aniversário de Quatis';
-            
-            // Municipal holidays - Itatiaia/RJ
-            holidays[`${year}-03-19`] = 'São José (Itatiaia)';
-            holidays[`${year}-06-01`] = 'Aniversário de Itatiaia';
-            
-            // 13th salary dates
-            holidays[`${year}-11-30`] = '1ª Parcela do 13º Salário';
-            holidays[`${year}-12-20`] = '2ª Parcela do 13º Salário';
-            
-            return holidays;
-        }
-
-        // Get holidays for current year
-        function getHolidays() {
-            return generateHolidays(currentYear);
-        }
-
-        // Fiscal events data
-        const fiscalEvents = {
-            // FGTS - 7º dia útil
-            'fgts': {
-                title: 'FGTS',
-                description: 'Recolhimento do FGTS - até o 7º dia útil',
-                type: 'event-fgts',
-                days: [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7] // 7º dia útil de cada mês
-            },
-            // INSS - 20º dia
-            'inss': {
-                title: 'INSS',
-                description: 'Recolhimento do INSS - até o dia 20',
-                type: 'event-inss',
-                days: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20]
-            },
-            // IRRF - último dia útil
-            'irrf': {
-                title: 'IRRF',
-                description: 'Recolhimento do IRRF - último dia útil',
-                type: 'event-irrf',
-                days: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31] // Será ajustado para último dia útil
-            },
-            // PIS - 20º dia
-            'pis': {
-                title: 'PIS',
-                description: 'Recolhimento do PIS - até o dia 20',
-                type: 'event-pis',
-                days: [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20]
-            },
-            // Folha de pagamento - 5º dia útil
-            'folha': {
-                title: 'Folha de Pagamento',
-                description: 'Fechamento da folha de pagamento - 5º dia útil',
-                type: 'event-folha',
-                days: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5] // 5º dia útil
-            }
-        };
-
-        // Firebase Authentication Functions
-        async function signInWithGoogle() {
-            try {
-                showMessage('🔄 Conectando com Google...');
-                
-                const result = await window.firebaseSignInWithPopup(window.firebaseAuth, window.googleProvider);
-                firebaseUser = result.user;
-                currentUser = firebaseUser.displayName || firebaseUser.email;
-                
-                console.log('✅ Login Google realizado:', currentUser);
-                showMessage('Login realizado com sucesso! 🎉');
-                
-                await saveUserToFirestore(firebaseUser);
-                setupRealtimeSync();
-                showMainContent();
-                
-                setTimeout(() => {
-                    document.getElementById('loginModal').style.display = 'none';
-                }, 1000);
-                
-            } catch (error) {
-                console.error('❌ Erro no login Google:', error);
-                if (error.code === 'auth/popup-closed-by-user') {
-                    showMessage('Login cancelado pelo usuário.', true);
-                } else if (error.code === 'auth/popup-blocked') {
-                    showMessage('Pop-up bloqueado. Permita pop-ups para este site.', true);
-                } else {
-                    showMessage('Erro no login com Google. Tente novamente.', true);
-                }
-            }
-        }
-
-        async function signInWithEmail() {
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            if (!email || !password) {
-                showMessage('Por favor, preencha todos os campos!', true);
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showMessage('Por favor, digite um email válido!', true);
-                return;
-            }
-
-            try {
-                showMessage('🔄 Fazendo login...');
-                
-                const userCredential = await window.firebaseSignInWithEmailAndPassword(window.firebaseAuth, email, password);
-                firebaseUser = userCredential.user;
-                currentUser = firebaseUser.email;
-                
-                console.log('✅ Login com email realizado:', currentUser);
-                showMessage('Login realizado com sucesso! 🎉');
-                
-                await saveUserToFirestore(firebaseUser);
-                setupRealtimeSync();
-                showMainContent();
-                
-                setTimeout(() => {
-                    document.getElementById('loginModal').style.display = 'none';
-                }, 1000);
-                
-            } catch (error) {
-                console.error('❌ Erro no login com email:', error);
-                
-                let errorMessage = 'Erro no login. Tente novamente.';
-                
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        errorMessage = 'Usuário não encontrado. Verifique o email ou crie uma conta.';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMessage = 'Senha incorreta. Tente novamente.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'Email inválido. Verifique o formato.';
-                        break;
-                    case 'auth/user-disabled':
-                        errorMessage = 'Esta conta foi desabilitada.';
-                        break;
-                    case 'auth/too-many-requests':
-                        errorMessage = 'Muitas tentativas. Tente novamente mais tarde.';
-                        break;
-                }
-                
-                showMessage(errorMessage, true);
-            }
-        }
-
-        async function createAccountWithEmail() {
-            const email = document.getElementById('registerEmail').value.trim();
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (!email || !password || !confirmPassword) {
-                showMessage('Por favor, preencha todos os campos!', true);
-                return;
-            }
-
-            if (!isValidEmail(email)) {
-                showMessage('Por favor, digite um email válido!', true);
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showMessage('As senhas não coincidem!', true);
-                return;
-            }
-            
-            if (password.length < 6) {
-                showMessage('A senha deve ter pelo menos 6 caracteres!', true);
-                return;
-            }
-
-            try {
-                showMessage('🔄 Criando conta...');
-                
-                const userCredential = await window.firebaseCreateUserWithEmailAndPassword(window.firebaseAuth, email, password);
-                firebaseUser = userCredential.user;
-                currentUser = firebaseUser.email;
-                
-                console.log('✅ Conta criada:', currentUser);
-                showMessage('Conta criada com sucesso! 🎉');
-                
-                await saveUserToFirestore(firebaseUser);
-                setupRealtimeSync();
-                showMainContent();
-                
-                setTimeout(() => {
-                    document.getElementById('loginModal').style.display = 'none';
-                }, 1000);
-                
-            } catch (error) {
-                console.error('❌ Erro ao criar conta:', error);
-                
-                let errorMessage = 'Erro ao criar conta. Tente novamente.';
-                
-                switch (error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage = 'Este email já está em uso. Tente fazer login.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage = 'Email inválido. Verifique o formato.';
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage = 'Senha muito fraca. Use pelo menos 6 caracteres.';
-                        break;
-                    case 'auth/operation-not-allowed':
-                        errorMessage = 'Criação de contas desabilitada.';
-                        break;
-                }
-                
-                showMessage(errorMessage, true);
-            }
-        }
-        
-        async function saveUserToFirestore(user) {
-            try {
-                const userRef = window.firestoreDoc(window.firebaseDb, 'users', user.uid);
-                await window.firestoreSetDoc(userRef, {
-                    uid: user.uid,
-                    email: user.email,
-                    displayName: user.displayName || user.email,
-                    photoURL: user.photoURL || null,
-                    lastLogin: window.firestoreServerTimestamp(),
-                    provider: user.providerData[0]?.providerId || 'email',
-                    createdAt: window.firestoreServerTimestamp()
-                }, { merge: true });
-                
-                console.log('✅ Usuário salvo no Firestore');
-            } catch (error) {
-                console.error('❌ Erro ao salvar usuário:', error);
-            }
-        }
-        
-        function setupRealtimeSync() {
-            if (!firebaseUser) return;
-            
-            if (realtimeListener) {
-                try {
-                    realtimeListener();
-                } catch (e) {
-                    console.log('Listener anterior removido');
-                }
-            }
-            
-            const uid = firebaseUser.uid;
-            
-            loadUserNotes().then(() => {
-                try {
-                    const eventsRef = window.firestoreCollection(window.firebaseDb, 'users', uid, 'events');
-                    
-                    realtimeListener = window.firestoreOnSnapshot(eventsRef, (snapshot) => {
-                        const notes = {};
-                        const birthdays = {};
-                        
-                        snapshot.docs.forEach(doc => {
-                            const data = doc.data();
-                            if (data.date && data.content) {
-                                notes[data.date] = data.content;
-                            }
-                            if (data.date && data.birthday) {
-                                birthdays[data.date] = data.birthday;
-                            }
-                        });
-                        
-                        console.log('🔄 Dados sincronizados:', Object.keys(notes).length, 'notas,', Object.keys(birthdays).length, 'aniversários');
-                        
-                        userNotes = notes;
-                        userBirthdays = birthdays;
-                        
-                        generateCalendar();
-                        updateStorageStatus('🌐 Sincronizado em tempo real');
-                        
-                    }, (error) => {
-                        console.error('❌ Erro no listener:', error);
-                        updateStorageStatus('⚠️ Usando modo offline');
-                        loadLocalData();
-                    });
-                } catch (error) {
-                    console.error('❌ Erro ao configurar listener:', error);
-                    updateStorageStatus('⚠️ Modo offline ativo');
-                    loadLocalData();
-                }
-            });
-        }
-        
-        async function loadUserNotes() {
-            if (!firebaseUser) return;
-            
-            try {
-                const uid = firebaseUser.uid;
-                const eventsRef = window.firestoreCollection(window.firebaseDb, 'users', uid, 'events');
-                
-                const querySnapshot = await window.firestoreGetDocs(eventsRef);
-                const notes = {};
-                const birthdays = {};
-                
-                querySnapshot.docs.forEach(doc => {
-                    const data = doc.data();
-                    if (data.date && data.content) {
-                        notes[data.date] = data.content;
-                    }
-                    if (data.date && data.birthday) {
-                        birthdays[data.date] = data.birthday;
-                    }
-                });
-                
-                userNotes = notes;
-                userBirthdays = birthdays;
-                console.log('✅ Dados carregados:', Object.keys(notes).length, 'notas,', Object.keys(birthdays).length, 'aniversários');
-                
-                localStorage.setItem(`notes_${uid}`, JSON.stringify(notes));
-                localStorage.setItem(`birthdays_${uid}`, JSON.stringify(birthdays));
-                
-                generateCalendar();
-                updateStorageStatus();
-                
-            } catch (error) {
-                console.error('❌ Erro ao carregar dados:', error);
-                updateStorageStatus('⚠️ Erro ao carregar - usando dados locais');
-                loadLocalData();
-            }
-        }
-        
-        function loadLocalData() {
-            if (!firebaseUser) return;
-            
-            try {
-                const uid = firebaseUser.uid;
-                const localNotes = localStorage.getItem(`notes_${uid}`);
-                const localBirthdays = localStorage.getItem(`birthdays_${uid}`);
-                
-                userNotes = localNotes ? JSON.parse(localNotes) : {};
-                userBirthdays = localBirthdays ? JSON.parse(localBirthdays) : {};
-                
-                console.log('📱 Dados locais carregados:', Object.keys(userNotes).length, 'notas,', Object.keys(userBirthdays).length, 'aniversários');
-                generateCalendar();
-                updateStorageStatus('📱 Dados locais carregados');
-                
-            } catch (error) {
-                console.error('❌ Erro ao carregar dados locais:', error);
-                userNotes = {};
-                userBirthdays = {};
-                generateCalendar();
-                updateStorageStatus('❌ Erro ao carregar dados');
-            }
-        }
-        
-        async function saveNoteToFirestore(date, content) {
-            if (!firebaseUser) return false;
-            
-            try {
-                const uid = firebaseUser.uid;
-                const eventRef = window.firestoreDoc(window.firebaseDb, 'users', uid, 'events', date);
-                
-                const eventData = {
-                    date: date,
-                    content: content,
-                    updatedAt: window.firestoreServerTimestamp(),
-                    createdAt: window.firestoreServerTimestamp()
-                };
-                
-                await window.firestoreSetDoc(eventRef, eventData, { merge: true });
-                
-                console.log('✅ Nota salva no Firestore:', date);
-                
-                const localNotes = { ...userNotes };
-                localNotes[date] = content;
-                localStorage.setItem(`notes_${uid}`, JSON.stringify(localNotes));
-                
-                return true;
-            } catch (error) {
-                console.error('❌ Erro ao salvar nota:', error);
-                
-                try {
-                    const uid = firebaseUser.uid;
-                    const localNotes = { ...userNotes };
-                    localNotes[date] = content;
-                    localStorage.setItem(`notes_${uid}`, JSON.stringify(localNotes));
-                    console.log('📱 Nota salva localmente');
-                    return true;
-                } catch (localError) {
-                    console.error('❌ Erro ao salvar localmente:', localError);
-                    return false;
-                }
-            }
-        }
-
-        async function saveBirthdayToFirestore(date, name) {
-            if (!firebaseUser) return false;
-            
-            try {
-                const uid = firebaseUser.uid;
-                const eventRef = window.firestoreDoc(window.firebaseDb, 'users', uid, 'events', date);
-                
-                const eventData = {
-                    date: date,
-                    birthday: name,
-                    updatedAt: window.firestoreServerTimestamp(),
-                    createdAt: window.firestoreServerTimestamp()
-                };
-                
-                await window.firestoreSetDoc(eventRef, eventData, { merge: true });
-                
-                console.log('✅ Aniversário salvo:', date, '-', name);
-                
-                const localBirthdays = { ...userBirthdays };
-                localBirthdays[date] = name;
-                localStorage.setItem(`birthdays_${uid}`, JSON.stringify(localBirthdays));
-                
-                return true;
-            } catch (error) {
-                console.error('❌ Erro ao salvar aniversário:', error);
-                
-                try {
-                    const uid = firebaseUser.uid;
-                    const localBirthdays = { ...userBirthdays };
-                    localBirthdays[date] = name;
-                    localStorage.setItem(`birthdays_${uid}`, JSON.stringify(localBirthdays));
-                    console.log('📱 Aniversário salvo localmente');
-                    return true;
-                } catch (localError) {
-                    console.error('❌ Erro ao salvar localmente:', localError);
-                    return false;
-                }
-            }
-        }
-
-        async function deleteNoteFromFirestore(date) {
-            if (!firebaseUser) return false;
-            
-            try {
-                const uid = firebaseUser.uid;
-                const eventRef = window.firestoreDoc(window.firebaseDb, 'users', uid, 'events', date);
-                
-                if (userBirthdays[date]) {
-                    const eventData = {
-                        date: date,
-                        birthday: userBirthdays[date],
-                        updatedAt: window.firestoreServerTimestamp()
-                    };
-                    await window.firestoreSetDoc(eventRef, eventData);
-                } else {
-                    await window.firestoreDeleteDoc(eventRef);
-                }
-                
-                console.log('✅ Nota deletada:', date);
-                
-                const localNotes = { ...userNotes };
-                delete localNotes[date];
-                localStorage.setItem(`notes_${uid}`, JSON.stringify(localNotes));
-                
-                return true;
-            } catch (error) {
-                console.error('❌ Erro ao deletar nota:', error);
-                
-                try {
-                    const uid = firebaseUser.uid;
-                    const localNotes = { ...userNotes };
-                    delete localNotes[date];
-                    localStorage.setItem(`notes_${uid}`, JSON.stringify(localNotes));
-                    console.log('📱 Nota deletada localmente');
-                    return true;
-                } catch (localError) {
-                    console.error('❌ Erro ao deletar localmente:', localError);
-                    return false;
-                }
-            }
-        }
-
-        async function deleteBirthdayFromFirestore(date) {
-            if (!firebaseUser) return false;
-            
-            try {
-                const uid = firebaseUser.uid;
-                const eventRef = window.firestoreDoc(window.firebaseDb, 'users', uid, 'events', date);
-                
-                if (userNotes[date]) {
-                    const eventData = {
-                        date: date,
-                        content: userNotes[date],
-                        updatedAt: window.firestoreServerTimestamp()
-                    };
-                    await window.firestoreSetDoc(eventRef, eventData);
-                } else {
-                    await window.firestoreDeleteDoc(eventRef);
-                }
-                
-                console.log('✅ Aniversário deletado:', date);
-                
-                const localBirthdays = { ...userBirthdays };
-                delete localBirthdays[date];
-                localStorage.setItem(`birthdays_${uid}`, JSON.stringify(localBirthdays));
-                
-                return true;
-            } catch (error) {
-                console.error('❌ Erro ao deletar aniversário:', error);
-                
-                try {
-                    const uid = firebaseUser.uid;
-                    const localBirthdays = { ...userBirthdays };
-                    delete localBirthdays[date];
-                    localStorage.setItem(`birthdays_${uid}`, JSON.stringify(localBirthdays));
-                    console.log('📱 Aniversário deletado localmente');
-                    return true;
-                } catch (localError) {
-                    console.error('❌ Erro ao deletar localmente:', localError);
-                    return false;
-                }
-            }
-        }
-        
-        function initFirebaseAuth() {
-            window.firebaseOnAuthStateChanged(window.firebaseAuth, async (user) => {
-                if (user) {
-                    firebaseUser = user;
-                    currentUser = user.displayName || user.email;
-                    console.log('🔥 Usuário autenticado:', currentUser);
-                    
-                    setupRealtimeSync();
-                    
-                    if (document.getElementById('loginModal').style.display !== 'none') {
-                        showMainContent();
-                        document.getElementById('loginModal').style.display = 'none';
-                    }
-                } else {
-                    if (realtimeListener) {
-                        try {
-                            realtimeListener();
-                        } catch (e) {
-                            console.log('Listener removido');
-                        }
-                        realtimeListener = null;
-                    }
-                    
-                    firebaseUser = null;
-                    currentUser = null;
-                    userNotes = {};
-                    userBirthdays = {};
-                    
-                    console.log('🔥 Usuário deslogado');
-                    
-                    const loginModal = document.getElementById('loginModal');
-                    if (loginModal && loginModal.style.display === 'none') {
-                        loginModal.style.display = 'flex';
-                        document.getElementById('mainContent').classList.add('blur-background');
-                    }
-                }
-            });
-        }
-
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
-        
-        function showLoginForm() {
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('registerForm').classList.add('hidden');
-            document.getElementById('loginMessage').classList.add('hidden');
-        }
-        
-        function showRegisterForm() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registerForm').classList.remove('hidden');
-            document.getElementById('loginMessage').classList.add('hidden');
-        }
-        
-        function showMessage(message, isError = false) {
-            const messageDiv = document.getElementById('loginMessage');
-            messageDiv.textContent = message;
-            messageDiv.className = `mt-4 text-center text-sm ${isError ? 'text-red-600' : 'text-green-600'}`;
-            messageDiv.classList.remove('hidden');
-        }
-        
-        function togglePasswordVisibility(inputId, toggleId) {
-            const passwordInput = document.getElementById(inputId);
-            const toggleButton = document.getElementById(toggleId);
-            const icon = toggleButton.querySelector('i');
-            
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                icon.setAttribute('data-lucide', 'eye-off');
-            } else {
-                passwordInput.type = 'password';
-                icon.setAttribute('data-lucide', 'eye');
-            }
-            
-            lucide.createIcons();
-        }
-        
-        function toggleTheme() {
-            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.body.setAttribute('data-theme', currentTheme);
-            
-            const themeIcon = document.getElementById('themeIcon');
-            if (currentTheme === 'dark') {
-                themeIcon.setAttribute('data-lucide', 'moon');
-            } else {
-                themeIcon.setAttribute('data-lucide', 'sun');
-            }
-            
-            lucide.createIcons();
-            localStorage.setItem('theme', currentTheme);
-            
-            document.body.classList.add('theme-transition');
-            setTimeout(() => {
-                document.body.classList.remove('theme-transition');
-            }, 500);
-        }
-
-        function toggleFilter(filterType) {
-            const filterChip = document.querySelector(`[data-filter="${filterType}"]`);
-            
-            if (filterType === 'all') {
-                activeFilters = ['all'];
-                document.querySelectorAll('.filter-chip').forEach(chip => {
-                    chip.classList.remove('active');
-                });
-                filterChip.classList.add('active');
-            } else {
-                if (activeFilters.includes('all')) {
-                    activeFilters = [];
-                    document.querySelector('[data-filter="all"]').classList.remove('active');
-                }
-                
-                if (activeFilters.includes(filterType)) {
-                    activeFilters = activeFilters.filter(f => f !== filterType);
-                    filterChip.classList.remove('active');
-                } else {
-                    activeFilters.push(filterType);
-                    filterChip.classList.add('active');
-                }
-                
-                if (activeFilters.length === 0) {
-                    activeFilters = ['all'];
-                    document.querySelector('[data-filter="all"]').classList.add('active');
-                }
-            }
-            
-            generateCalendar();
-        }
-
-        function showTimeline() {
-            const modal = document.getElementById('timelineModal');
-            const content = document.getElementById('timelineContent');
-            
-            const upcomingEvents = getUpcomingEvents();
-            
-            let timelineHTML = '';
-            if (upcomingEvents.length === 0) {
-                timelineHTML = '<div class="text-center py-8" style="color: var(--text-secondary);">Nenhum evento próximo encontrado</div>';
-            } else {
-                upcomingEvents.forEach(event => {
-                    timelineHTML += `
-                        <div class="border-l-4 border-blue-500 pl-4 mb-4 pb-4">
-                            <div class="font-semibold" style="color: var(--text-primary);">${event.title}</div>
-                            <div class="text-sm" style="color: var(--text-secondary);">${event.date}</div>
-                            <div class="text-xs mt-1" style="color: var(--text-secondary);">${event.description}</div>
-                        </div>
-                    `;
-                });
-            }
-            
-            content.innerHTML = timelineHTML;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeTimelineModal() {
-            const modal = document.getElementById('timelineModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function getUpcomingEvents() {
-            const today = new Date();
-            const events = [];
-            
-            for (let i = 0; i < 30; i++) {
-                const checkDate = new Date(today);
-                checkDate.setDate(today.getDate() + i);
-                
-                const dateStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
-                const dayEvents = getEventsForDay(checkDate.getDate(), checkDate.getMonth() + 1);
-                
-                dayEvents.forEach(event => {
-                    events.push({
-                        ...event,
-                        date: checkDate.toLocaleDateString('pt-BR'),
-                        sortDate: checkDate
-                    });
-                });
-                
-                // Check holidays for this date
-                const holidays = generateHolidays(checkDate.getFullYear());
-                if (holidays[dateStr]) {
-                    events.push({
-                        title: 'Feriado',
-                        description: holidays[dateStr],
-                        date: checkDate.toLocaleDateString('pt-BR'),
-                        sortDate: checkDate,
-                        type: 'holiday'
-                    });
-                }
-                
-                if (userNotes[dateStr]) {
-                    events.push({
-                        title: 'Observação',
-                        description: userNotes[dateStr],
-                        date: checkDate.toLocaleDateString('pt-BR'),
-                        sortDate: checkDate,
-                        type: 'note'
-                    });
-                }
-                
-                if (userBirthdays[dateStr]) {
-                    events.push({
-                        title: 'Aniversário',
-                        description: userBirthdays[dateStr],
-                        date: checkDate.toLocaleDateString('pt-BR'),
-                        sortDate: checkDate,
-                        type: 'birthday'
-                    });
-                }
-            }
-            
-            return events.sort((a, b) => a.sortDate - b.sortDate).slice(0, 10);
-        }
-
-        function showMainContent() {
-            document.getElementById('mainContent').classList.remove('blur-background');
-            document.getElementById('userWelcome').innerHTML = `<strong>👋 Bem-vindo, ${currentUser}!</strong>`;
-            
-            document.getElementById('floatingNav').classList.remove('hidden');
-            
-            generateCalendar();
-            updateStorageStatus();
-            
-            lucide.createIcons();
-            
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            if (savedTheme !== currentTheme) {
-                toggleTheme();
-            }
-        }
-        
-        async function logout() {
-            if (confirm('Tem certeza que deseja sair?')) {
-                try {
-                    if (realtimeListener) {
-                        try {
-                            realtimeListener();
-                        } catch (e) {
-                            console.log('Listener removido durante logout');
-                        }
-                        realtimeListener = null;
-                    }
-                    
-                    currentUser = null;
-                    firebaseUser = null;
-                    userNotes = {};
-                    userBirthdays = {};
-                    
-                    await window.firebaseSignOut(window.firebaseAuth);
-                    console.log('✅ Logout realizado');
-                    
-                    document.getElementById('loginModal').style.display = 'flex';
-                    document.getElementById('mainContent').classList.add('blur-background');
-                    
-                    document.getElementById('loginEmail').value = '';
-                    document.getElementById('loginPassword').value = '';
-                    document.getElementById('registerEmail').value = '';
-                    document.getElementById('registerPassword').value = '';
-                    document.getElementById('confirmPassword').value = '';
-                    
-                    document.getElementById('userWelcome').innerHTML = '';
-                    document.getElementById('storageStatus').textContent = '';
-                    
-                    showLoginForm();
-                } catch (error) {
-                    console.error('❌ Erro no logout:', error);
-                    alert('Erro ao fazer logout. Tente novamente.');
-                }
-            }
-        }
-        
-        function updateStorageStatus(customMessage = null) {
-            const statusDiv = document.getElementById('storageStatus');
-            
-            if (customMessage) {
-                statusDiv.textContent = customMessage;
-                statusDiv.className = 'text-sm text-blue-600 mt-2';
-                return;
-            }
-            
-            const noteCount = Object.keys(userNotes).length;
-            
-            if (noteCount > 0) {
-                let statusText = `🌐 ${noteCount} observação${noteCount > 1 ? 'ões' : ''} sincronizada${noteCount > 1 ? 's' : ''} na nuvem`;
-                statusDiv.textContent = statusText;
-                statusDiv.className = 'text-sm text-green-600 mt-2';
-            } else {
-                statusDiv.textContent = '📝 Nenhuma observação salva ainda';
-                statusDiv.className = 'text-sm text-gray-500 mt-2';
-            }
-        }
-
-        function changeYear(direction) {
-            // Add click effect to button
-            const button = event.target.closest('button');
-            if (button) {
-                button.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    button.style.transform = '';
-                }, 150);
-            }
-            
-            // Add transition effect to year display
-            const yearDisplay = document.getElementById('currentYear');
-            yearDisplay.style.transform = direction > 0 ? 'translateX(50px)' : 'translateX(-50px)';
-            yearDisplay.style.opacity = '0';
-            
-            setTimeout(() => {
-                currentYear += direction;
-                updateYearDisplay();
-                
-                yearDisplay.style.transform = direction > 0 ? 'translateX(-50px)' : 'translateX(50px)';
-                
-                setTimeout(() => {
-                    yearDisplay.style.transform = 'translateX(0)';
-                    yearDisplay.style.opacity = '1';
-                }, 50);
-                
-                generateCalendar();
-            }, 200);
-        }
-
-        function updateYearDisplay() {
-            document.getElementById('currentYear').textContent = currentYear;
-            document.getElementById('prevYear').textContent = currentYear - 1;
-            document.getElementById('nextYear').textContent = currentYear + 1;
-        }
-
-        function generateCalendar() {
-            const calendarGrid = document.getElementById('calendarGrid');
-            calendarGrid.innerHTML = '';
-            
-            for (let month = 0; month < 12; month++) {
-                const monthCard = createMonthCard(month);
-                calendarGrid.appendChild(monthCard);
-            }
-        }
-
-        function createMonthCard(monthIndex) {
-            const monthCard = document.createElement('div');
-            monthCard.className = 'month-card rounded-2xl shadow-lg overflow-hidden';
-            monthCard.style.setProperty('--month-index', monthIndex);
-            
-            const daysInMonth = new Date(currentYear, monthIndex + 1, 0).getDate();
-            const firstDay = new Date(currentYear, monthIndex, 1).getDay();
-            
-            let monthHTML = `
-                <div class="month-header text-white p-4 text-center">
-                    <h3 class="text-xl font-bold">${months[monthIndex]}</h3>
-                    <p class="text-sm opacity-90">${currentYear}</p>
-                </div>
-                <div class="p-4">
-                    <div class="grid grid-cols-7 gap-1 mb-2">
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Dom</div>
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Seg</div>
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Ter</div>
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Qua</div>
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Qui</div>
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Sex</div>
-                        <div class="text-xs font-semibold text-center p-1" style="color: var(--text-secondary);">Sáb</div>
-                    </div>
-                    <div class="grid grid-cols-7 gap-1">
-            `;
-            
-            // Empty cells for days before month starts
-            for (let i = 0; i < firstDay; i++) {
-                monthHTML += '<div class="h-12"></div>';
-            }
-            
-            // Days of the month
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateStr = `${currentYear}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const isToday = isDateToday(currentYear, monthIndex, day);
-                const holidays = getHolidays();
-                const isHoliday = holidays[dateStr];
-                const events = getEventsForDay(day, monthIndex + 1);
-                const hasNote = userNotes[dateStr];
-                const hasBirthday = userBirthdays[dateStr];
-                
-                let dayClasses = 'calendar-day h-12 rounded-lg flex flex-col items-center justify-center text-sm font-medium cursor-pointer relative';
-                
-                if (isToday) {
-                    dayClasses += ' today';
-                } else if (isHoliday && shouldShowEvent('event-holiday')) {
-                    dayClasses += ' holiday-day';
-                } else {
-                    dayClasses += ' hover:bg-opacity-80';
-                    dayClasses += ` text-gray-700`;
-                }
-                
-                // Verificar se este dia deve ser mostrado baseado nos filtros ativos
-                let shouldShowDay = activeFilters.includes('all');
-                
-                if (!shouldShowDay) {
-                    // Verificar se tem eventos fiscais e filtro fiscal está ativo
-                    if (events.length > 0 && activeFilters.includes('fiscal')) {
-                        shouldShowDay = true;
-                    }
-                    // Verificar se é feriado e filtro feriados está ativo
-                    if (isHoliday && activeFilters.includes('holidays')) {
-                        shouldShowDay = true;
-                    }
-                    // Verificar se tem aniversário e filtro aniversários está ativo
-                    if (hasBirthday && activeFilters.includes('birthdays')) {
-                        shouldShowDay = true;
-                    }
-                    // Verificar se tem observação e filtro observações está ativo
-                    if (hasNote && activeFilters.includes('notes')) {
-                        shouldShowDay = true;
-                    }
-                }
-
-                // Se o dia não deve ser mostrado, criar um dia vazio mas ainda clicável para aniversários
-                if (!shouldShowDay) {
-                    monthHTML += `
-                        <div class="h-12 rounded-lg flex flex-col items-center justify-center text-sm opacity-30 cursor-pointer hover:opacity-60 transition-opacity duration-300" onclick="openDayModal(${day}, ${monthIndex + 1}, '${dateStr}')" style="background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-secondary);">
-                            ${hasNote ? '<div class="absolute top-1 left-1 w-2 h-2 bg-yellow-500 rounded-full shadow-sm opacity-50" title="Observação"></div>' : ''}
-                            ${hasBirthday ? '<div class="absolute top-1 right-1 w-2 h-2 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full shadow-sm" title="Aniversário"></div>' : ''}
-                            <span class="text-xs">${day}</span>
-                            <div class="absolute bottom-0 right-0 opacity-40 hover:opacity-80 transition-opacity">
-                                <i data-lucide="cake" class="w-3 h-3 text-orange-400" title="Adicionar aniversário"></i>
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    monthHTML += `
-                        <div class="${dayClasses}" onclick="openDayModal(${day}, ${monthIndex + 1}, '${dateStr}')" style="background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary);">
-                            ${hasNote && shouldShowEvent('notes') ? '<div class="absolute top-1 left-1 w-2 h-2 bg-yellow-500 rounded-full shadow-sm" title="Observação"></div>' : ''}
-                            ${hasBirthday && shouldShowEvent('birthdays') ? '<div class="absolute top-1 right-1 w-2 h-2 bg-gradient-to-r from-orange-500 to-pink-500 rounded-full shadow-sm" title="Aniversário"></div>' : ''}
-                            <span class="text-xs">${day}</span>
-                            <div class="flex flex-wrap justify-center mt-1">
-                    `;
-                
-                    // Add event indicators
-                    let eventIndex = 0;
-                    events.forEach(event => {
-                        if (shouldShowEvent(event.type)) {
-                            monthHTML += `<div class="event-indicator ${event.type}" style="--delay: ${eventIndex}" title="${event.title}"></div>`;
-                            eventIndex++;
-                        }
-                    });
-                    
-                    // Add holiday indicator if it's a holiday and should be shown
-                    if (isHoliday && shouldShowEvent('event-holiday')) {
-                        monthHTML += `<div class="event-indicator event-holiday" style="--delay: ${eventIndex}" title="Feriado: ${isHoliday}"></div>`;
-                    }
-                    
-                    monthHTML += '</div></div>';
-                }
-            }
-            
-            monthHTML += '</div></div>';
-            monthCard.innerHTML = monthHTML;
-            
-            return monthCard;
-        }
-
-        function shouldShowEvent(eventType) {
-            // Se "Todos" está ativo, mostra tudo
-            if (activeFilters.includes('all')) return true;
-            
-            // Eventos fiscais (FGTS, INSS, IRRF, PIS, etc.)
-            if (eventType.startsWith('event-') && !eventType.includes('holiday') && !eventType.includes('birthday') && activeFilters.includes('fiscal')) {
-                return true;
-            }
-            
-            // Feriados
-            if (eventType === 'event-holiday' && activeFilters.includes('holidays')) {
-                return true;
-            }
-            
-            // Aniversários
-            if (eventType === 'birthdays' && activeFilters.includes('birthdays')) {
-                return true;
-            }
-            
-            // Observações/Notas
-            if (eventType === 'notes' && activeFilters.includes('notes')) {
-                return true;
-            }
-            
-            return false;
-        }
-
-        function isDateToday(year, month, day) {
-            const today = new Date();
-            return year === today.getFullYear() && 
-                   month === today.getMonth() && 
-                   day === today.getDate();
-        }
-
-        function getEventsForDay(day, month) {
-            const events = [];
-            
-            // Check fiscal events
-            Object.keys(fiscalEvents).forEach(eventKey => {
-                const event = fiscalEvents[eventKey];
-                if (event.days[month - 1] === day) {
-                    events.push(event);
-                }
-            });
-            
-            return events;
-        }
-
-        function openDayModal(day, month, dateStr) {
-            // Add click effect to the day element
-            const dayElement = event.target.closest('.calendar-day') || event.target;
-            if (dayElement) {
-                dayElement.style.transform = 'scale(0.9)';
-                dayElement.style.transition = 'transform 0.15s ease';
-                
-                setTimeout(() => {
-                    dayElement.style.transform = '';
-                }, 150);
-            }
-            
-            const events = getEventsForDay(day, month);
-            const hasNote = userNotes[dateStr];
-            const hasBirthday = userBirthdays[dateStr];
-            const holidays = getHolidays();
-            const isHoliday = holidays[dateStr];
-            
-            // Always show the modal with options to add birthday/notes
-            // if (events.length === 0 && !hasNote && !hasBirthday && !isHoliday) {
-            //     // Open notes modal for empty days
-            //     openNotesModal(dateStr);
-            //     return;
-            // }
-            
-            const modal = document.getElementById('eventModal');
-            const title = document.getElementById('modalTitle');
-            const content = document.getElementById('modalContent');
-            
-            title.textContent = `${day} de ${months[month - 1]}`;
-            
-            let modalHTML = '';
-            
-            // Show holiday
-            if (isHoliday) {
-                modalHTML += `
-                    <div class="mb-4 p-3 bg-red-50 border-l-4 border-red-500 rounded">
-                        <h4 class="font-bold text-red-800">🎉 Feriado Nacional</h4>
-                        <p class="text-red-700">${isHoliday}</p>
-                    </div>
-                `;
-            }
-            
-            // Show fiscal events
-            events.forEach(event => {
-                let bgColor = 'bg-blue-50';
-                let borderColor = 'border-blue-500';
-                let textColor = 'text-blue-800';
-                
-                if (event.type === 'event-fgts') {
-                    bgColor = 'bg-red-50';
-                    borderColor = 'border-red-500';
-                    textColor = 'text-red-800';
-                } else if (event.type === 'event-inss') {
-                    bgColor = 'bg-blue-50';
-                    borderColor = 'border-blue-500';
-                    textColor = 'text-blue-800';
-                } else if (event.type === 'event-irrf') {
-                    bgColor = 'bg-green-50';
-                    borderColor = 'border-green-500';
-                    textColor = 'text-green-800';
-                }
-                
-                modalHTML += `
-                    <div class="mb-4 p-3 ${bgColor} border-l-4 ${borderColor} rounded">
-                        <h4 class="font-bold ${textColor}">📋 ${event.title}</h4>
-                        <p class="${textColor.replace('800', '700')}">${event.description}</p>
-                    </div>
-                `;
-            });
-            
-            // Show user note
-            if (hasNote) {
-                modalHTML += `
-                    <div class="mb-4 p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded">
-                        <h4 class="font-bold text-yellow-800">📝 Sua Observação</h4>
-                        <p class="text-yellow-700">${hasNote}</p>
-                        <button onclick="openNotesModal('${dateStr}')" class="mt-2 text-yellow-600 hover:text-yellow-800 text-sm underline">
-                            Editar observação
-                        </button>
-                    </div>
-                `;
-            }
-            
-            // Show birthday
-            if (hasBirthday) {
-                modalHTML += `
-                    <div class="mb-4 p-3 bg-orange-50 border-l-4 border-orange-500 rounded">
-                        <h4 class="font-bold text-orange-800">🎂 Aniversário</h4>
-                        <p class="text-orange-700">${hasBirthday}</p>
-                        <button onclick="openBirthdayModal('${dateStr}')" class="mt-2 text-orange-600 hover:text-orange-800 text-sm underline">
-                            Editar aniversário
-                        </button>
-                    </div>
-                `;
-            }
-            
-            // Add action buttons - always show both options
-            modalHTML += `
-                <div class="mt-6 space-y-2">
-                    <div class="flex space-x-2">
-                        <button onclick="openNotesModal('${dateStr}')" class="flex-1 ${hasNote ? 'bg-yellow-600 hover:bg-yellow-700' : 'bg-yellow-500 hover:bg-yellow-600'} text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-300">
-                            📝 ${hasNote ? 'Editar Observação' : 'Adicionar Observação'}
-                        </button>
-                        <button onclick="openBirthdayModal('${dateStr}')" class="flex-1 ${hasBirthday ? 'bg-orange-600 hover:bg-orange-700' : 'bg-orange-500 hover:bg-orange-600'} text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-300">
-                            🎂 ${hasBirthday ? 'Editar Aniversário' : 'Adicionar Aniversário'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // If no events at all, show a helpful message
-            if (events.length === 0 && !hasNote && !hasBirthday && !isHoliday) {
-                modalHTML = `
-                    <div class="text-center py-6">
-                        <div class="text-6xl mb-4">📅</div>
-                        <h4 class="text-lg font-semibold mb-2" style="color: var(--text-primary);">Nenhum evento hoje</h4>
-                        <p class="text-sm mb-6" style="color: var(--text-secondary);">Que tal adicionar uma observação ou aniversário?</p>
-                    </div>
-                ` + modalHTML;
-            }
-            
-            content.innerHTML = modalHTML;
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        function closeModal() {
-            document.getElementById('eventModal').classList.add('hidden');
-            document.getElementById('eventModal').classList.remove('flex');
-        }
-
-        function openNotesModal(dateStr) {
-            closeModal();
-            
-            currentNoteDate = dateStr;
-            const modal = document.getElementById('notesModal');
-            const input = document.getElementById('noteInput');
-            const existingNote = document.getElementById('existingNote');
-            const existingNoteText = document.getElementById('existingNoteText');
-            
-            const currentNote = userNotes[dateStr];
-            
-            if (currentNote) {
-                input.value = currentNote;
-                existingNoteText.textContent = currentNote;
-                existingNote.classList.remove('hidden');
-            } else {
-                input.value = '';
-                existingNote.classList.add('hidden');
-            }
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            // Add opening animation
-            const modalContent = modal.querySelector('.modal-content');
-            modalContent.style.transform = 'scale(0.8) translateY(-20px)';
-            modalContent.style.opacity = '0';
-            
-            setTimeout(() => {
-                modalContent.style.transform = 'scale(1) translateY(0)';
-                modalContent.style.opacity = '1';
-                modalContent.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                input.focus();
-            }, 50);
-        }
-
-        function closeNotesModal() {
-            document.getElementById('notesModal').classList.add('hidden');
-            document.getElementById('notesModal').classList.remove('flex');
-            currentNoteDate = '';
-        }
-
-        async function saveNote() {
-            const noteText = document.getElementById('noteInput').value.trim();
-            
-            if (!noteText) {
-                // Add shake effect to input
-                const input = document.getElementById('noteInput');
-                input.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => input.style.animation = '', 500);
-                alert('Por favor, digite uma observação!');
-                return;
-            }
-            
-            if (!currentNoteDate) {
-                alert('Erro: data não selecionada!');
-                return;
-            }
-            
-            // Add loading effect to save button
-            const saveButton = event.target;
-            const originalText = saveButton.innerHTML;
-            saveButton.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 inline mr-1 animate-spin"></i>Salvando...';
-            saveButton.disabled = true;
-            
-            const success = await saveNoteToFirestore(currentNoteDate, noteText);
-            
-            if (success) {
-                userNotes[currentNoteDate] = noteText;
-                
-                // Success animation
-                saveButton.innerHTML = '<i data-lucide="check" class="w-4 h-4 inline mr-1"></i>Salvo!';
-                saveButton.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                
-                setTimeout(() => {
-                    generateCalendar();
-                    updateStorageStatus();
-                    closeNotesModal();
-                    alert('Observação salva com sucesso! ✅');
-                }, 800);
-            } else {
-                saveButton.innerHTML = originalText;
-                saveButton.disabled = false;
-                alert('Erro ao salvar observação. Tente novamente.');
-            }
-            
-            lucide.createIcons();
-        }
-
-        async function deleteNote() {
-            if (!currentNoteDate || !userNotes[currentNoteDate]) {
-                alert('Nenhuma observação para excluir!');
-                return;
-            }
-            
-            if (!confirm('Tem certeza que deseja excluir esta observação?')) {
-                return;
-            }
-            
-            const success = await deleteNoteFromFirestore(currentNoteDate);
-            
-            if (success) {
-                delete userNotes[currentNoteDate];
-                generateCalendar();
-                updateStorageStatus();
-                closeNotesModal();
-                alert('Observação excluída com sucesso! ✅');
-            } else {
-                alert('Erro ao excluir observação. Tente novamente.');
-            }
-        }
-
-        function openBirthdayModal(dateStr) {
-            closeModal();
-            
-            currentNoteDate = dateStr;
-            const modal = document.getElementById('birthdayModal');
-            const input = document.getElementById('birthdayInput');
-            const existingBirthday = document.getElementById('existingBirthday');
-            const existingBirthdayText = document.getElementById('existingBirthdayText');
-            
-            const currentBirthday = userBirthdays[dateStr];
-            
-            if (currentBirthday) {
-                input.value = currentBirthday;
-                existingBirthdayText.textContent = currentBirthday;
-                existingBirthday.classList.remove('hidden');
-            } else {
-                input.value = '';
-                existingBirthday.classList.add('hidden');
-            }
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            
-            // Add opening animation
-            const modalContent = modal.querySelector('.modal-content');
-            modalContent.style.transform = 'scale(0.8) translateY(-20px)';
-            modalContent.style.opacity = '0';
-            
-            setTimeout(() => {
-                modalContent.style.transform = 'scale(1) translateY(0)';
-                modalContent.style.opacity = '1';
-                modalContent.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
-                input.focus();
-            }, 50);
-        }
-
-        function closeBirthdayModal() {
-            document.getElementById('birthdayModal').classList.add('hidden');
-            document.getElementById('birthdayModal').classList.remove('flex');
-            currentNoteDate = '';
-        }
-
-        async function saveBirthday() {
-            const birthdayName = document.getElementById('birthdayInput').value.trim();
-            
-            if (!birthdayName) {
-                // Add shake effect to input
-                const input = document.getElementById('birthdayInput');
-                input.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => input.style.animation = '', 500);
-                alert('Por favor, digite o nome da pessoa!');
-                return;
-            }
-            
-            if (!currentNoteDate) {
-                alert('Erro: data não selecionada!');
-                return;
-            }
-            
-            // Add loading effect to save button
-            const saveButton = event.target;
-            const originalText = saveButton.innerHTML;
-            saveButton.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 inline mr-1 animate-spin"></i>Salvando...';
-            saveButton.disabled = true;
-            
-            const success = await saveBirthdayToFirestore(currentNoteDate, birthdayName);
-            
-            if (success) {
-                userBirthdays[currentNoteDate] = birthdayName;
-                
-                // Success animation
-                saveButton.innerHTML = '<i data-lucide="check" class="w-4 h-4 inline mr-1"></i>Salvo!';
-                saveButton.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                
-                setTimeout(() => {
-                    generateCalendar();
-                    updateStorageStatus();
-                    closeBirthdayModal();
-                    alert('Aniversário salvo com sucesso! 🎉');
-                }, 800);
-            } else {
-                saveButton.innerHTML = originalText;
-                saveButton.disabled = false;
-                alert('Erro ao salvar aniversário. Tente novamente.');
-            }
-            
-            lucide.createIcons();
-        }
-
-        async function deleteBirthday() {
-            if (!currentNoteDate || !userBirthdays[currentNoteDate]) {
-                alert('Nenhum aniversário para excluir!');
-                return;
-            }
-            
-            if (!confirm('Tem certeza que deseja excluir este aniversário?')) {
-                return;
-            }
-            
-            const success = await deleteBirthdayFromFirestore(currentNoteDate);
-            
-            if (success) {
-                delete userBirthdays[currentNoteDate];
-                generateCalendar();
-                updateStorageStatus();
-                closeBirthdayModal();
-                alert('Aniversário excluído com sucesso! ✅');
-            } else {
-                alert('Erro ao excluir aniversário. Tente novamente.');
-            }
-        }
-
-        // Daily reminder system
-        function checkDailyReminders() {
-            if (!firebaseUser) return;
-            
-            const today = new Date();
-            const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-            
-            const todayEvents = [];
-            
-            // Check fiscal events
-            const fiscalEventsToday = getEventsForDay(today.getDate(), today.getMonth() + 1);
-            fiscalEventsToday.forEach(event => {
-                todayEvents.push({
-                    type: 'fiscal',
-                    title: event.title,
-                    description: event.description,
-                    icon: '📋'
-                });
-            });
-            
-            // Check holidays
-            const holidays = generateHolidays(today.getFullYear());
-            if (holidays[todayStr]) {
-                todayEvents.push({
-                    type: 'holiday',
-                    title: 'Feriado',
-                    description: holidays[todayStr],
-                    icon: '🎉'
-                });
-            }
-            
-            // Check user notes
-            if (userNotes[todayStr]) {
-                todayEvents.push({
-                    type: 'note',
-                    title: 'Observação',
-                    description: userNotes[todayStr],
-                    icon: '📝'
-                });
-            }
-            
-            // Check birthdays
-            if (userBirthdays[todayStr]) {
-                todayEvents.push({
-                    type: 'birthday',
-                    title: 'Aniversário',
-                    description: userBirthdays[todayStr],
-                    icon: '🎂'
-                });
-            }
-            
-            // Show reminder if there are events today
-            if (todayEvents.length > 0) {
-                showDailyReminder(todayEvents);
-            }
-        }
-
-        function showDailyReminder(events) {
-            // Check if reminder was already shown today
-            const today = new Date().toDateString();
-            const lastReminderDate = localStorage.getItem('lastReminderDate');
-            
-            if (lastReminderDate === today) {
-                return; // Already shown today
-            }
-            
-            let reminderHTML = `
-                <div id="dailyReminder" class="fixed top-4 right-4 z-50 max-w-sm bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6 transform translate-x-full transition-all duration-500 ease-out">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-bold text-gray-800 dark:text-white flex items-center">
-                            <i data-lucide="bell" class="w-5 h-5 mr-2 text-blue-500"></i>
-                            Lembretes de Hoje
-                        </h3>
-                        <button onclick="closeDailyReminder()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-                            <i data-lucide="x" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-                    <div class="space-y-3">
-            `;
-            
-            events.forEach(event => {
-                let bgColor = 'bg-blue-50 dark:bg-blue-900/20';
-                let textColor = 'text-blue-800 dark:text-blue-200';
-                
-                if (event.type === 'holiday') {
-                    bgColor = 'bg-red-50 dark:bg-red-900/20';
-                    textColor = 'text-red-800 dark:text-red-200';
-                } else if (event.type === 'birthday') {
-                    bgColor = 'bg-orange-50 dark:bg-orange-900/20';
-                    textColor = 'text-orange-800 dark:text-orange-200';
-                } else if (event.type === 'note') {
-                    bgColor = 'bg-yellow-50 dark:bg-yellow-900/20';
-                    textColor = 'text-yellow-800 dark:text-yellow-200';
-                }
-                
-                reminderHTML += `
-                    <div class="${bgColor} p-3 rounded-lg">
-                        <div class="flex items-start space-x-2">
-                            <span class="text-lg">${event.icon}</span>
-                            <div class="flex-1">
-                                <h4 class="font-semibold ${textColor} text-sm">${event.title}</h4>
-                                <p class="${textColor} text-xs opacity-80">${event.description}</p>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-            
-            reminderHTML += `
-                    </div>
-                    <div class="mt-4 flex space-x-2">
-                        <button onclick="closeDailyReminder()" class="flex-1 bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-300">
-                            Fechar
-                        </button>
-                        <button onclick="snoozeReminder()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-300">
-                            Lembrar em 1h
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            // Add to body
-            document.body.insertAdjacentHTML('beforeend', reminderHTML);
-            
-            // Initialize icons
-            lucide.createIcons();
-            
-            // Animate in
-            setTimeout(() => {
-                const reminder = document.getElementById('dailyReminder');
-                if (reminder) {
-                    reminder.style.transform = 'translateX(0)';
-                }
-            }, 100);
-            
-            // Mark as shown today
-            localStorage.setItem('lastReminderDate', today);
-        }
-
-        function closeDailyReminder() {
-            const reminder = document.getElementById('dailyReminder');
-            if (reminder) {
-                reminder.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    reminder.remove();
-                }, 500);
-            }
-        }
-
-        function snoozeReminder() {
-            closeDailyReminder();
-            
-            // Set reminder to show again in 1 hour
-            setTimeout(() => {
-                // Remove the "shown today" flag so it can show again
-                localStorage.removeItem('lastReminderDate');
-                checkDailyReminders();
-            }, 60 * 60 * 1000); // 1 hour
-            
-            // Show snooze confirmation
-            const snoozeNotification = document.createElement('div');
-            snoozeNotification.className = 'fixed top-4 right-4 z-50 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg';
-            snoozeNotification.textContent = '⏰ Lembrete adiado por 1 hora';
-            document.body.appendChild(snoozeNotification);
-            
-            setTimeout(() => {
-                snoozeNotification.remove();
-            }, 3000);
-        }
-
-        // Initialize the application
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Aplicação iniciada');
-            
-            // Initialize Firebase Auth
-            initFirebaseAuth();
-            
-            // Initialize Lucide icons
-            lucide.createIcons();
-            
-            // Update year display
-            updateYearDisplay();
-            
-            // Load saved theme
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            if (savedTheme === 'dark') {
-                toggleTheme();
-            }
-            
-            // Check for daily reminders every minute
-            setInterval(checkDailyReminders, 60000);
-            
-            // Check reminders on load (with delay to ensure user is logged in)
-            setTimeout(checkDailyReminders, 3000);
-            
-            console.log('✅ Inicialização completa');
-        });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c12d89e6129417',t:'MTc1NDY3ODgwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
-</html>
+   </section>
+   <section class="light section-pad">
+    <div class="page-inner grid gap-12 lg:grid-cols-[.85fr_1.15fr] lg:gap-24">
+     <div>
+      <p data-template-id="individual-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Estratégia individual</p>
+      <h2 data-template-id="individual-title" class="canva-text display !text-[clamp(2.5rem,4.6vw,4.8rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Coerência no conjunto. Identidade em cada perfil.</h2>
+     </div>
+     <div class="self-center">
+      <div class="small-rule mb-8"></div>
+      <p data-template-id="individual-copy" class="canva-text body-copy mb-6" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Cada marca terá posicionamento, linguagem, temas de conteúdo e planejamento próprios, com respeito à identidade visual existente.</p>
+      <p data-template-id="individual-note" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">A estratégia será coordenada entre os três perfis, sem fazer com que pareçam cópias uns dos outros.</p>
+     </div>
+    </div>
+   </section>
+   <section id="entregas" class="graphite section-pad">
+    <div class="page-inner">
+     <p data-template-id="deliveries-kicker" class="canva-text eyebrow bronze mb-5" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">O que será produzido</p>
+     <h2 data-template-id="deliveries-title" class="canva-text display max-w-[750px] mb-8 !text-[clamp(2.6rem,5vw,5.2rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Uma presença construída com constância.</h2>
+     <p data-template-id="deliveries-intro" class="canva-text body-copy muted-dark max-w-[700px] mb-12" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Os mínimos abaixo se aplicam a cada perfil: Savora, Zephýr e Quintal.</p>
+     <div class="grid gap-px bg-[#C9B89B]/35 md:grid-cols-3 border border-[#C9B89B]/35">
+      <div class="bg-[#1F1F1F] p-8 md:p-10">
+       <p class="bronze display !text-[4rem] mb-5" aria-hidden="true">08</p>
+       <h3 data-template-id="delivery-reels" class="canva-text font-semibold" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 19px;">8 vídeos em formato Reels por mês, por perfil.</h3>
+      </div>
+      <div class="bg-[#1F1F1F] p-8 md:p-10">
+       <p class="bronze display !text-[4rem] mb-5" aria-hidden="true">06</p>
+       <h3 data-template-id="delivery-posts" class="canva-text font-semibold" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 19px;">6 publicações estáticas ou em carrossel por mês, por perfil.</h3>
+      </div>
+      <div class="bg-[#1F1F1F] p-8 md:p-10">
+       <p class="bronze display !text-[4rem] mb-5" aria-hidden="true">01</p>
+       <h3 data-template-id="delivery-visits" class="canva-text font-semibold" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 19px;">1 visita presencial por semana para produção de conteúdo, por perfil.</h3>
+      </div>
+     </div>
+     <p data-template-id="deliveries-note" class="canva-text body-copy mt-9 max-w-[920px]" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 16px;">São entregas mínimas mensais planejadas, não um limite absoluto de produção.</p>
+     <p data-template-id="deliveries-capture" class="canva-text body-copy muted-dark mt-3 max-w-[920px]" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">As visitas podem captar pratos, produtos, ambiente, processos, bastidores e experiências que façam sentido para a estratégia de cada marca.</p>
+    </div>
+   </section>
+   <section class="light section-pad">
+    <div class="page-inner grid gap-14 lg:grid-cols-2 lg:gap-24">
+     <div>
+      <p data-template-id="content-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Conteúdo que gera valor</p>
+      <h2 data-template-id="content-title" class="canva-text display mb-7 !text-[clamp(2.5rem,4.6vw,4.7rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Cada publicação tem um propósito.</h2>
+      <p data-template-id="content-copy" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">O conteúdo pode mostrar diferentes dimensões de cada negócio, sempre com escolhas alinhadas ao seu posicionamento e ao momento da marca.</p>
+     </div>
+     <div class="self-center">
+      <p data-template-id="content-categories" class="canva-text display !text-[clamp(1.7rem,3vw,2.7rem)] leading-snug" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Experiência / Bastidores / Produtos / Relacionamento / Autoridade / Divulgação comercial</p>
+      <div class="rule mt-9 pt-6">
+       <p data-template-id="content-objectives" class="canva-text body-copy" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Haverá conteúdos comerciais, institucionais, educativos, relacionais e de descoberta. Cada publicação terá um objetivo definido.</p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="dark section-pad">
+    <div class="page-inner grid gap-10 md:grid-cols-[.85fr_1.15fr] md:gap-20">
+     <div>
+      <p data-template-id="planning-kicker" class="canva-text eyebrow bronze mb-5" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Planejamento estratégico</p>
+      <h2 data-template-id="planning-title" class="canva-text display !text-[clamp(2.4rem,4.4vw,4.5rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Direção antes da execução.</h2>
+     </div>
+     <div class="rule pt-8">
+      <p data-template-id="planning-copy" class="canva-text body-copy" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">O trabalho inclui definição de pilares de conteúdo, planejamento editorial, organização de pautas, definição de objetivos por publicação, adequação da linguagem a cada marca e acompanhamento da evolução.</p>
+     </div>
+    </div>
+   </section>
+   <section id="processo" class="light section-pad">
+    <div class="page-inner">
+     <p data-template-id="process-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Como será o processo de trabalho</p>
+     <h2 data-template-id="process-title" class="canva-text display mb-12 !text-[clamp(2.5rem,4.8vw,5rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Um fluxo claro, do planejamento aos ajustes.</h2>
+     <div class="grid gap-x-16 md:grid-cols-2">
+      <div class="step flex gap-6">
+       <span class="bronze">01</span>
+       <p data-template-id="step-1" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Alinhamento e planejamento.</p>
+      </div>
+      <div class="step flex gap-6">
+       <span class="bronze">02</span>
+       <p data-template-id="step-2" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Definição das pautas.</p>
+      </div>
+      <div class="step flex gap-6">
+       <span class="bronze">03</span>
+       <p data-template-id="step-3" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Captação presencial.</p>
+      </div>
+      <div class="step flex gap-6">
+       <span class="bronze">04</span>
+       <p data-template-id="step-4" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Edição e preparação do conteúdo.</p>
+      </div>
+      <div class="step flex gap-6">
+       <span class="bronze">05</span>
+       <p data-template-id="step-5" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Organização das publicações.</p>
+      </div>
+      <div class="step flex gap-6">
+       <span class="bronze">06</span>
+       <p data-template-id="step-6" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Acompanhamento e análise.</p>
+      </div>
+      <div class="step flex gap-6 md:col-span-2">
+       <span class="bronze">07</span>
+       <p data-template-id="step-7" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Ajustes estratégicos conforme a evolução do trabalho.</p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="graphite section-pad">
+    <div class="page-inner grid gap-12 lg:grid-cols-[.9fr_1.1fr] lg:gap-24">
+     <div>
+      <p data-template-id="profiles-kicker" class="canva-text eyebrow bronze mb-5" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Organização visual dos perfis</p>
+      <h2 data-template-id="profiles-title" class="canva-text display !text-[clamp(2.5rem,4.6vw,4.8rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Uma primeira impressão mais clara e coerente.</h2>
+     </div>
+     <div class="self-center">
+      <p data-template-id="profiles-copy" class="canva-text body-copy mb-7" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">A reorganização inicial de cada perfil busca torná-lo mais atraente, profissional e coerente no primeiro contato.</p>
+      <p data-template-id="profiles-list" class="canva-text body-copy muted-dark mb-7" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Isso pode contemplar organização visual do feed, padronização de capas de Reels, melhor apresentação dos destaques, organização das informações da bio, clareza na comunicação do negócio e melhor percepção visual do conjunto.</p>
+      <div class="rule pt-6">
+       <p data-template-id="profiles-no-logo" class="canva-text body-copy bronze" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 16px;">Não haverá redesign, redesenho ou criação de novos logotipos. As identidades visuais existentes serão respeitadas e valorizadas.</p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <section class="light section-pad">
+    <div class="page-inner">
+     <p data-template-id="directions-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Possibilidades de conteúdo</p>
+     <h2 data-template-id="directions-title" class="canva-text display mb-12 !text-[clamp(2.5rem,4.7vw,5rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Uma direção criativa para cada marca.</h2>
+     <div class="grid gap-12 lg:grid-cols-3 lg:gap-9">
+      <article class="border-t border-[#C9B89B] pt-7">
+       <h3 data-template-id="savora-strategy-title" class="canva-text display mb-5 !text-[2.3rem]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 19px;">Savora</h3>
+       <p data-template-id="savora-strategy-copy" class="canva-text body-copy muted-light mb-6" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Como possibilidades: apresentação visual dos pratos; detalhes de ingredientes e preparo; experiência gastronômica; ambiente e ocasiões de consumo; bastidores da cozinha quando autorizados; e conteúdos que despertem vontade de conhecer o restaurante.</p>
+       <p data-template-id="savora-direction" class="canva-text font-semibold" style="color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Direção visual: refinamento, sabor, experiência e personalidade.</p>
+      </article>
+      <article class="border-t border-[#C9B89B] pt-7">
+       <h3 data-template-id="zephyr-strategy-title" class="canva-text display mb-5 !text-[2.3rem]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 19px;">Zephýr</h3>
+       <p data-template-id="zephyr-strategy-copy" class="canva-text body-copy muted-light mb-6" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Como possibilidades: preparação de cafés; bebidas e produtos; brunch e ocasiões de consumo; ambiente e experiências; rotina do café; bastidores e detalhes sensoriais; e conteúdos que estimulem visitas e compartilhamentos.</p>
+       <p data-template-id="zephyr-direction" class="canva-text font-semibold" style="color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Direção visual: aconchego, qualidade, personalidade e desejo de consumo.</p>
+      </article>
+      <article class="border-t border-[#C9B89B] pt-7">
+       <h3 data-template-id="quintal-strategy-title" class="canva-text display mb-5 !text-[2.3rem]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 19px;">Quintal</h3>
+       <p data-template-id="quintal-strategy-copy" class="canva-text body-copy muted-light mb-6" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Como possibilidades: pratos do dia; apresentação das refeições; preparo e bastidores; sensação de comida caseira; praticidade e opções de consumo; rotina do estabelecimento; e conteúdos que reforcem confiança e proximidade.</p>
+       <p data-template-id="quintal-direction" class="canva-text font-semibold" style="color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Direção visual: acolhimento, sabor, simplicidade bem apresentada e familiaridade.</p>
+      </article>
+     </div>
+    </div>
+   </section>
+   <section class="dark section-pad">
+    <div class="page-inner grid gap-9 md:grid-cols-[1fr_1fr] md:gap-24">
+     <div>
+      <p data-template-id="beyond-kicker" class="canva-text eyebrow bronze mb-5" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Mais presença além das redes sociais</p>
+      <h2 data-template-id="beyond-title" class="canva-text display !text-[clamp(2.5rem,4.5vw,4.8rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Pontos de contato que trabalham juntos.</h2>
+     </div>
+     <div class="self-end border-l border-[#C9B89B] pl-7">
+      <p data-template-id="beyond-copy" class="canva-text body-copy" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">A presença digital pode ser complementada por informações comerciais bem organizadas no Google e por um site profissional. Essas iniciativas ampliam a clareza da apresentação dos negócios, sem garantia de posicionamento em buscas, aprovação pela plataforma ou resultados específicos de visitas.</p>
+     </div>
+    </div>
+   </section>
+   <section id="beneficios" class="light section-pad">
+    <div class="page-inner">
+     <p data-template-id="benefits-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Benefícios adicionais incluídos</p>
+     <h2 data-template-id="benefits-title" class="canva-text display mb-5 !text-[clamp(2.5rem,4.8vw,5rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Dois brindes para fortalecer a presença digital.</h2>
+     <p data-template-id="benefits-intro" class="canva-text body-copy muted-light max-w-[750px] mb-12" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Incluídos na contratação, com escopo definido antes da execução. Não são itens mensais adicionais.</p>
+     <div class="grid gap-6 lg:grid-cols-2">
+      <article data-template-id="google-benefit" class="canva-card border border-[#C9B89B] p-7 md:p-10" style="background: rgb(237, 231, 217);">
+       <p data-template-id="gift-one-label" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Brinde 1</p>
+       <h3 data-template-id="google-title" class="canva-text display mb-6 !text-[clamp(1.9rem,3vw,2.8rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 19px;">Configuração do Perfil da Empresa no Google</h3>
+       <p data-template-id="google-copy" class="canva-text body-copy mb-6" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Configuração inicial conforme elegibilidade e regras da plataforma. Pode contemplar organização das informações comerciais, categorias e descrição, horários, endereço ou área de atendimento quando aplicável, telefone e canais de contato, inclusão de fotografias fornecidas ou produzidas e orientações para manter os dados atualizados.</p>
+       <p data-template-id="google-note" class="canva-text body-copy font-semibold" style="color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Não se trata de gestão mensal contínua.</p>
+      </article>
+      <article data-template-id="site-benefit" class="canva-card border border-[#C9B89B] p-7 md:p-10" style="background: rgb(237, 231, 217);">
+       <p data-template-id="gift-two-label" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Brinde 2</p>
+       <h3 data-template-id="site-title" class="canva-text display mb-6 !text-[clamp(1.9rem,3vw,2.8rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 19px;">Site de apresentação ou site para eventos e solicitações de orçamento</h3>
+       <p data-template-id="site-intro" class="canva-text body-copy" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Desenvolvimento de uma versão inicial para uma das marcas contratadas, com escopo previamente definido e formato escolhido em conjunto. Há duas opções:</p>
+      </article>
+     </div>
+     <div class="grid gap-8 mt-8 md:grid-cols-2">
+      <div class="border-t border-[#C9B89B] pt-6">
+       <h3 data-template-id="option-a-title" class="canva-text font-bold mb-4" style="color: rgb(11, 11, 11); font-weight: 700; font-style: normal; font-size: 19px;">Opção A — Site de apresentação</h3>
+       <p data-template-id="option-a-copy" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Apresentação da marca, fotografias de produtos e ambiente, descrição da experiência, informações comerciais, endereço e mapa quando aplicável, horários, botão de contato pelo WhatsApp quando os dados forem fornecidos, links para redes sociais, chamada para visita ou contato e informações de cardápio quando fornecidas pelo cliente.</p>
+      </div>
+      <div class="border-t border-[#C9B89B] pt-6">
+       <h3 data-template-id="option-b-title" class="canva-text font-bold mb-4" style="color: rgb(11, 11, 11); font-weight: 700; font-style: normal; font-size: 19px;">Opção B — Site para eventos e solicitações de orçamento</h3>
+       <p data-template-id="option-b-copy" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Apresentação de espaços e possibilidades, galeria de fotografias, tipos de eventos definidos pelo cliente, formulário com nome, contato, tipo de evento, data pretendida, número estimado de pessoas e observações, botão para iniciar conversa pelo WhatsApp e informações de contato.</p>
+      </div>
+     </div>
+     <div class="mt-10 border-l-2 border-[#C9B89B] pl-6">
+      <p data-template-id="site-scope-note" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">O brinde não pressupõe sistema completo de reservas, pagamentos, disponibilidade em tempo real, integrações externas, automação avançada, domínio, hospedagem, e-mail profissional, ferramentas pagas, manutenção recorrente ou alterações futuras ilimitadas. Esses itens serão alinhados antes da execução.</p>
+     </div>
+    </div>
+   </section>
+   <section id="investimento" class="graphite section-pad">
+    <div class="page-inner">
+     <p data-template-id="investment-kicker" class="canva-text eyebrow bronze mb-5" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Investimento</p>
+     <h2 data-template-id="investment-title" class="canva-text display mb-12 !text-[clamp(2.6rem,5vw,5.2rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Uma proposta para os três perfis.</h2>
+     <div class="grid gap-8 border-y border-[#C9B89B]/50 py-9 md:grid-cols-2 md:gap-16">
+      <div>
+       <p data-template-id="price-per-profile" class="canva-text display !text-[clamp(2rem,3.8vw,3.8rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">R$ 1.700,00 por perfil/mês</p>
+      </div>
+      <div class="md:border-l md:border-[#C9B89B]/50 md:pl-12">
+       <p data-template-id="price-total" class="canva-text display bronze !text-[clamp(2rem,3.8vw,3.8rem)]" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 16px;">R$ 5.100,00 pelos três perfis/mês</p>
+      </div>
+     </div>
+     <div class="grid gap-7 mt-10 md:grid-cols-2 md:gap-16">
+      <p data-template-id="investment-copy" class="canva-text body-copy" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">O valor mensal total contempla o escopo descrito para Savora, Zephýr e Quintal. O novo café futuro não está incluído no investimento mensal atual.</p>
+      <p data-template-id="investment-benefits" class="canva-text body-copy muted-dark" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">A contratação também inclui dois benefícios adicionais: configuração inicial do Perfil da Empresa no Google e desenvolvimento de um site de apresentação ou de captação de solicitações para eventos para uma das marcas, com escopo definido. Não são cobrados como itens mensais adicionais.</p>
+     </div><a href="#contato" data-template-id="investment-cta" class="canva-button action mt-10" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 16px;">Agendar conversa</a>
+    </div>
+   </section>
+   <section class="light section-pad">
+    <div class="page-inner grid gap-10 md:grid-cols-[.9fr_1.1fr] md:gap-20">
+     <div>
+      <p data-template-id="expectations-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">O que esperar do trabalho</p>
+      <h2 data-template-id="expectations-title" class="canva-text display !text-[clamp(2.5rem,4.5vw,4.7rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Consistência com espaço para evoluir.</h2>
+     </div>
+     <div class="self-center">
+      <p data-template-id="expectations-copy" class="canva-text body-copy mb-6" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">O trabalho será conduzido com planejamento, consistência, análise e ajustes. A evolução será acompanhada e as decisões serão revistas conforme os dados disponíveis e as necessidades de cada negócio.</p>
+      <p data-template-id="expectations-note" class="canva-text body-copy muted-light" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">Não há promessa de vendas, seguidores, alcance, faturamento ou resultados garantidos.</p>
+     </div>
+    </div>
+   </section>
+   <section id="contato" class="dark section-pad">
+    <div class="page-inner text-center">
+     <p data-template-id="closing-kicker" class="canva-text eyebrow bronze mb-9" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Próximo passo</p>
+     <h2 data-template-id="closing-title" class="canva-text display max-w-[960px] mx-auto mb-8 !text-[clamp(2.8rem,6vw,6rem)]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 24px;">Vamos construir uma presença digital à altura das suas marcas.</h2>
+     <p data-template-id="closing-copy" class="canva-text body-copy muted-dark max-w-[680px] mx-auto mb-9" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Estratégia, conteúdo e acompanhamento para fortalecer a comunicação, valorizar a experiência e criar novas oportunidades para os negócios.</p>
+     <p data-template-id="closing-name" class="canva-text mb-9" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Gabriel Assis — Marketing Digital</p><button id="closing-cta" data-template-id="closing-cta" type="button" class="canva-button action action-filled" aria-expanded="false" aria-controls="contact-guidance" style="background: rgb(201, 184, 155); color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Agendar conversa</button>
+     <p id="contact-guidance" data-template-id="contact-guidance" class="canva-text mx-auto mt-7 max-w-[480px] body-copy bronze hidden" role="status" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 16px;">Para agendar uma conversa, responda pelo canal em que recebeu esta proposta.</p>
+    </div>
+   </section>
+  </main>
+  <footer data-template-id="site-footer" class="canva-footer border-t border-[#C9B89B]/25 bg-[#0B0B0B] py-7" style="background: rgb(11, 11, 11);">
+   <div class="page-inner flex flex-wrap justify-between gap-3">
+    <p data-template-id="footer-name" class="canva-text" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 13px;">Gabriel Assis — Marketing Digital</p><a href="#visao-geral" data-template-id="back-to-top" class="canva-link bronze" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 13px;">Voltar ao início ↑</a>
+   </div>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide) lucide.createIcons();
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+      function closeMenu() {
+        menu.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Abrir menu');
+      }
+      toggle.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+      });
+      menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      const contactButton = document.getElementById('closing-cta');
+      contactButton.addEventListener('click', () => {
+        document.getElementById('contact-guidance').classList.remove('hidden');
+        contactButton.setAttribute('aria-expanded', 'true');
+      });
+    });
+  </script>
+ 
+</body></html>
