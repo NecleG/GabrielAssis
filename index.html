@@ -37,9 +37,8 @@
     .small-rule { width:34px; height:1px; background:var(--bronze); }
     @media(max-width:900px) {
       .desktop-nav { display:none; }
-      .mobile-nav { display:block; }
-      .mobile-menu { display:none; }
-      .mobile-menu.open { display:flex; }
+      .mobile-nav { display:none; }
+      .mobile-menu { display:none!important; }
     }
     @media(min-width:901px) { .mobile-nav { display:none; } }
     @media(max-width:640px) {
@@ -59,16 +58,17 @@
  </head>
  <body data-template-id="__page-root" class="w-full" style="background: rgb(11, 11, 11);">
   <header data-template-id="site-header" class="canva-header fixed inset-x-0 top-0 z-50 border-b border-[#C9B89B]/20 bg-[#0B0B0B]/95 backdrop-blur-md" style="background: rgb(11, 11, 11);">
-   <div class="page-inner flex min-h-[72px] items-center justify-between gap-6"><a href="#visao-geral" data-template-id="header-name" class="canva-link whitespace-nowrap font-semibold tracking-wide" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 16px;">Gabriel Assis</a>
-    <nav class="desktop-nav flex items-center gap-5 xl:gap-7" aria-label="Navegação principal"><a href="#visao-geral" data-template-id="nav-overview" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Visão geral</a> <a href="#marcas" data-template-id="nav-brands" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Marcas</a> <a href="#entregas" data-template-id="nav-deliverables" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Entregas</a> <a href="#processo" data-template-id="nav-process" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Processo</a> <a href="#beneficios" data-template-id="nav-benefits" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Benefícios</a> <a href="#investimento" data-template-id="nav-investment" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Investimento</a> <a href="#contato" data-template-id="nav-contact" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
-    </nav><button id="menu-toggle" type="button" class="mobile-nav p-2 bronze" aria-label="Abrir menu" aria-controls="mobile-menu" aria-expanded="false"><i data-lucide="menu" aria-hidden="true"></i></button>
+   <div class="page-inner flex min-h-[72px] items-center justify-between gap-6">
+    <a href="#visao-geral" data-template-id="header-name" class="canva-link whitespace-nowrap font-semibold tracking-wide" style="color: rgb(237, 231, 217); font-weight: 600; font-style: normal; font-size: 16px;">Gabriel Assis</a>
+    <nav class="desktop-nav flex items-center gap-5 xl:gap-7" aria-label="Navegação principal">
+     <a href="#visao-geral" data-template-id="nav-overview" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Visão geral</a> <a href="#marcas" data-template-id="nav-brands" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Marcas</a> <a href="#entregas" data-template-id="nav-deliverables" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Entregas</a> <a href="#processo" data-template-id="nav-process" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Processo</a> <a href="#beneficios" data-template-id="nav-benefits" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Benefícios</a> <a href="#investimento" data-template-id="nav-investment" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Investimento</a> <a href="#contato" data-template-id="nav-contact" class="canva-link nav-link text-[12px]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 16px;">Contato</a>
+    </nav>
    </div>
-   <nav id="mobile-menu" class="mobile-menu page-inner flex-col gap-0 pb-5" aria-label="Navegação móvel"><a href="#visao-geral" class="nav-link py-2">Visão geral</a><a href="#marcas" class="nav-link py-2">Marcas</a> <a href="#entregas" class="nav-link py-2">Entregas</a><a href="#processo" class="nav-link py-2">Processo</a> <a href="#beneficios" class="nav-link py-2">Benefícios</a><a href="#investimento" class="nav-link py-2">Investimento</a> <a href="#contato" class="nav-link py-2">Contato</a>
-   </nav>
   </header>
   <main>
    <section id="visao-geral" class="dark relative flex min-h-[680px] items-end overflow-hidden pt-28 sm:items-center" style="min-height:calc(84 * min(var(--vh, 1vh), 1vh))">
-    <div class="hero-photo absolute inset-0"><img data-template-id="hero-image" loading="lazy" class="canva-image h-full w-full object-cover object-center" src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920" alt="Mesa posta em ambiente gastronômico elegante">
+    <div class="hero-photo absolute inset-0">
+     <img data-template-id="hero-image" loading="lazy" class="canva-image h-full w-full object-cover object-center" src="https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1920" alt="Mesa posta em ambiente gastronômico elegante">
     </div>
     <div class="page-inner relative z-10 py-24 sm:py-36">
      <div class="max-w-[720px]">
@@ -99,31 +99,25 @@
      </div>
      <div class="grid gap-6 md:grid-cols-3">
       <article data-template-id="savora-card" class="canva-card border border-[#C9B89B]/25 bg-[#1F1F1F]" style="background: rgb(31, 31, 31);">
-       <div class="image-frame aspect-[4/3]">
-        <img data-template-id="savora-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Prato gastronômico fotografado em composição editorial">
+       <div class="image-frame aspect-[4/3]"><img data-template-id="savora-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Prato gastronômico fotografado em composição editorial">
        </div>
-       <div class="p-7">
-        <span class="bronze eyebrow">01 / Restaurante</span>
+       <div class="p-7"><span class="bronze eyebrow">01 / Restaurante</span>
         <h3 data-template-id="savora-name" class="canva-text display my-4 !text-[2.2rem]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Savora</h3>
         <p data-template-id="savora-card-copy" class="canva-text muted-dark body-copy" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Restaurante de gastronomia mediterrânea. Direção: sofisticação, experiência, apresentação dos pratos, ingredientes, ambiente, sensorialidade e qualidade percebida.</p>
        </div>
       </article>
       <article data-template-id="zephyr-card" class="canva-card border border-[#C9B89B]/25 bg-[#1F1F1F]" style="background: rgb(31, 31, 31);">
-       <div class="image-frame aspect-[4/3]">
-        <img data-template-id="zephyr-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Café preparado e servido em xícara">
+       <div class="image-frame aspect-[4/3]"><img data-template-id="zephyr-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Café preparado e servido em xícara">
        </div>
-       <div class="p-7">
-        <span class="bronze eyebrow">02 / Café</span>
+       <div class="p-7"><span class="bronze eyebrow">02 / Café</span>
         <h3 data-template-id="zephyr-name" class="canva-text display my-4 !text-[2.2rem]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Zephýr</h3>
         <p data-template-id="zephyr-card-copy" class="canva-text muted-dark body-copy mb-4" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Café. Direção: cafés especiais, brunch, produtos, experiência, ambiente acolhedor, rotina dos clientes e momentos de consumo.</p><a data-template-id="zephyr-instagram" href="https://www.instagram.com/zephyrcafebrasil/" target="_blank" rel="noopener noreferrer" class="canva-link bronze underline underline-offset-4 text-sm" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 14px;">Instagram de referência informado pelo cliente ↗</a>
        </div>
       </article>
       <article data-template-id="quintal-card" class="canva-card border border-[#C9B89B]/25 bg-[#1F1F1F]" style="background: rgb(31, 31, 31);">
-       <div class="image-frame aspect-[4/3]">
-        <img data-template-id="quintal-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Refeição servida à mesa com apresentação acolhedora">
+       <div class="image-frame aspect-[4/3]"><img data-template-id="quintal-image" loading="lazy" class="canva-image h-full w-full object-cover" src="https://images.pexels.com/photos/958545/pexels-photo-958545.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=800" alt="Refeição servida à mesa com apresentação acolhedora">
        </div>
-       <div class="p-7">
-        <span class="bronze eyebrow">03 / Restaurante</span>
+       <div class="p-7"><span class="bronze eyebrow">03 / Restaurante</span>
         <h3 data-template-id="quintal-name" class="canva-text display my-4 !text-[2.2rem]" style="color: rgb(237, 231, 217); font-weight: 400; font-style: normal; font-size: 19px;">Quintal</h3>
         <p data-template-id="quintal-card-copy" class="canva-text muted-dark body-copy" style="color: rgb(169, 161, 150); font-weight: 400; font-style: normal; font-size: 16px;">Restaurante de comida caseira. Direção: comida de verdade, sabor familiar, acolhimento, refeições do cotidiano, tradição, praticidade e proximidade.</p>
        </div>
@@ -202,32 +196,25 @@
      <p data-template-id="process-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Como será o processo de trabalho</p>
      <h2 data-template-id="process-title" class="canva-text display mb-12 !text-[clamp(2.5rem,4.8vw,5rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Um fluxo claro, do planejamento aos ajustes.</h2>
      <div class="grid gap-x-16 md:grid-cols-2">
-      <div class="step flex gap-6">
-       <span class="bronze">01</span>
+      <div class="step flex gap-6"><span class="bronze">01</span>
        <p data-template-id="step-1" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Alinhamento e planejamento.</p>
       </div>
-      <div class="step flex gap-6">
-       <span class="bronze">02</span>
+      <div class="step flex gap-6"><span class="bronze">02</span>
        <p data-template-id="step-2" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Definição das pautas.</p>
       </div>
-      <div class="step flex gap-6">
-       <span class="bronze">03</span>
+      <div class="step flex gap-6"><span class="bronze">03</span>
        <p data-template-id="step-3" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Captação presencial.</p>
       </div>
-      <div class="step flex gap-6">
-       <span class="bronze">04</span>
+      <div class="step flex gap-6"><span class="bronze">04</span>
        <p data-template-id="step-4" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Edição e preparação do conteúdo.</p>
       </div>
-      <div class="step flex gap-6">
-       <span class="bronze">05</span>
+      <div class="step flex gap-6"><span class="bronze">05</span>
        <p data-template-id="step-5" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Organização das publicações.</p>
       </div>
-      <div class="step flex gap-6">
-       <span class="bronze">06</span>
+      <div class="step flex gap-6"><span class="bronze">06</span>
        <p data-template-id="step-6" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Acompanhamento e análise.</p>
       </div>
-      <div class="step flex gap-6 md:col-span-2">
-       <span class="bronze">07</span>
+      <div class="step flex gap-6 md:col-span-2"><span class="bronze">07</span>
        <p data-template-id="step-7" class="canva-text font-medium" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 16px;">Ajustes estratégicos conforme a evolução do trabalho.</p>
       </div>
      </div>
@@ -345,6 +332,18 @@
      </div>
     </div>
    </section>
+   <section id="briefing" class="light section-pad">
+    <div class="page-inner grid gap-10 md:grid-cols-[.85fr_1.15fr] md:items-center md:gap-20">
+     <div>
+      <p data-template-id="briefing-kicker" class="canva-text eyebrow mb-5" style="color: rgb(128, 110, 85); font-weight: 400; font-style: normal; font-size: 11px;">Próximo passo</p>
+      <h2 data-template-id="briefing-title" class="canva-text display !text-[clamp(2.5rem,4.8vw,5rem)]" style="color: rgb(11, 11, 11); font-weight: 400; font-style: normal; font-size: 24px;">Questionário de briefing</h2>
+     </div>
+     <div>
+      <p data-template-id="briefing-copy" class="canva-text body-copy muted-light mb-8" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 16px;">O briefing reúne informações sobre a empresa, as marcas, os objetivos, o público, os produtos, a operação, as referências e as necessidades de comunicação. Essas respostas ajudam a orientar o planejamento com mais clareza.</p><a data-template-id="briefing-cta" href="https://briefing-gabriel-beige.vercel.app/briefing" target="_blank" rel="noopener noreferrer" class="canva-button action action-filled" style="background: rgb(201, 184, 155); color: rgb(11, 11, 11); font-weight: 600; font-style: normal; font-size: 16px;">Preencher briefing</a>
+      <p class="mt-5 text-sm"><a data-template-id="briefing-link" href="https://briefing-gabriel-beige.vercel.app/briefing" target="_blank" rel="noopener noreferrer" class="canva-link underline underline-offset-4" style="color: rgb(80, 75, 68); font-weight: 400; font-style: normal; font-size: 14px;">Abrir briefing em uma nova aba ↗</a></p>
+     </div>
+    </div>
+   </section>
    <section id="contato" class="dark section-pad">
     <div class="page-inner text-center">
      <p data-template-id="closing-kicker" class="canva-text eyebrow bronze mb-9" style="color: rgb(201, 184, 155); font-weight: 400; font-style: normal; font-size: 11px;">Próximo passo</p>
@@ -363,19 +362,6 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       if (window.lucide) lucide.createIcons();
-      const toggle = document.getElementById('menu-toggle');
-      const menu = document.getElementById('mobile-menu');
-      function closeMenu() {
-        menu.classList.remove('open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.setAttribute('aria-label', 'Abrir menu');
-      }
-      toggle.addEventListener('click', () => {
-        const open = menu.classList.toggle('open');
-        toggle.setAttribute('aria-expanded', String(open));
-        toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
-      });
-      menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
       const contactButton = document.getElementById('closing-cta');
       contactButton.addEventListener('click', () => {
         document.getElementById('contact-guidance').classList.remove('hidden');
